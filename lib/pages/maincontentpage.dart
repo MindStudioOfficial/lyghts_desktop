@@ -34,8 +34,11 @@ class _MainContentPageState extends State<MainContentPage> {
   @override
   void initState() {
     super.initState();
-    loadProjects().then((value) => localProjects = value);
-    selectedPlan = localProjects[0].plans[0];
+    loadProjects().then((value) {
+      localProjects = value;
+      selectedPlan = localProjects[1].plans[0];
+      setState(() {});
+    });
   }
 
   @override

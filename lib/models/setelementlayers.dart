@@ -4,10 +4,12 @@ abstract class SetLayer {
   int id;
   bool visible;
   bool selected;
+  bool highlighted;
   SetLayer({
     this.id = -1,
     this.visible = true,
     this.selected = false,
+    this.highlighted = false,
   });
 
   Map<String, dynamic> toJSON();
@@ -28,11 +30,8 @@ class SetElementLayer extends SetLayer {
     int id = -1,
     bool visible = true,
     bool selected = false,
-  }) : super(
-          id: id,
-          visible: visible,
-          selected: selected = false,
-        );
+    bool highlighted = false,
+  }) : super(id: id, visible: visible, selected: selected, highlighted: highlighted);
   @override
   String toString() {
     return {"element": element, "id": id}.toString();
@@ -68,10 +67,12 @@ class SetGroupLayer extends SetLayer {
     bool visible = true,
     bool selected = false,
     this.expanded = true,
+    bool highlighted = false,
   }) : super(
           id: id,
           visible: visible,
           selected: selected,
+          highlighted: highlighted,
         );
 
   void selectAll(bool selected) {
@@ -112,11 +113,11 @@ class SetGroupLayer extends SetLayer {
     );
   }
 
-  bool remove(SetElement e) {
+  bool removeElement(SetElement e) {
     for (int i = 0; i < contents.length; i++) {
       SetLayer layer = contents[i];
       if (layer is SetGroupLayer) {
-        if (layer.remove(e)) return true;
+        if (layer.removeElement(e)) return true;
       } else if (layer is SetElementLayer) {
         if (layer.element == e) {
           contents.removeAt(i);

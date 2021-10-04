@@ -263,7 +263,7 @@ class _EditCanvasState extends State<EditCanvas> {
                             if (layer is SetElementLayer && layer.element == e) {
                               widget.plan.setLayers.removeAt(i);
                             } else if (layer is SetGroupLayer) {
-                              layer.remove(e);
+                              layer.removeElement(e);
                             }
                           }
                         });
