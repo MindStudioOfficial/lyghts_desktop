@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
+import 'package:lyghts_desktop/models.dart';
 
 class NewPlanDialog extends StatefulWidget {
   final Function(Plan plan) onNewPlan;

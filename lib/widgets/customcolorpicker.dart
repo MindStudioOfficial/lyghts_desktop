@@ -2,8 +2,8 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
-import 'package:lomp_desktop/utils.dart';
+import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/utils.dart';
 import 'package:vector_math/vector_math.dart' as vm;
 
 class CustomColorPicker extends StatelessWidget {

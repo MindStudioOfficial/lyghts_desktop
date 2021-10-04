@@ -1,6 +1,6 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/pages.dart';
+import 'package:lyghts_desktop/pages.dart';
 import 'config.dart';
 import 'widgets.dart';
 import 'models.dart';

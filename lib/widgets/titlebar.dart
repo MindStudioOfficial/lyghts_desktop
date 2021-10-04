@@ -1,7 +1,7 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
-import 'package:lomp_desktop/widgets.dart';
+import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/widgets.dart';
 
 class TitleBar extends StatefulWidget {
   final String titleBarText;

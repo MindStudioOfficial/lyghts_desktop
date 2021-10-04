@@ -1,4 +1,4 @@
-# lomp_desktop
+# lyghts_desktop
 
 A new Flutter project.
 

@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
-import 'package:lomp_desktop/painters/camerapainter.dart';
-import 'package:lomp_desktop/painters/lightpainter.dart';
-import 'package:lomp_desktop/painters/shapepainter.dart';
-import 'package:lomp_desktop/utils/binary.dart';
-import 'package:lomp_desktop/widgets.dart';
+import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/painters/camerapainter.dart';
+import 'package:lyghts_desktop/painters/lightpainter.dart';
+import 'package:lyghts_desktop/painters/shapepainter.dart';
+import 'package:lyghts_desktop/utils/binary.dart';
+import 'package:lyghts_desktop/widgets.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:vector_math/vector_math.dart' as vm;
 

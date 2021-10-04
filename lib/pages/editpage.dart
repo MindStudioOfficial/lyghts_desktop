@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/utils/binary.dart';
-import 'package:lomp_desktop/widgets.dart';
-import 'package:lomp_desktop/models.dart';
+import 'package:lyghts_desktop/utils/binary.dart';
+import 'package:lyghts_desktop/widgets.dart';
+import 'package:lyghts_desktop/models.dart';
 import 'package:screenshot/screenshot.dart';
 
 class EditPage extends StatefulWidget {

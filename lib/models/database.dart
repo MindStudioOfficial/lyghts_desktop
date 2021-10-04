@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:lomp_desktop/models.dart';
+import 'package:lyghts_desktop/models.dart';
 import 'package:flutter/material.dart';
 
 List<LightFixture> lightFixtureDatabase = [
@@ -126,6 +126,7 @@ List<LightFixture> lightFixtureDatabase = [
 
 List<Project> localProjects = [
   Project(
+    filename: "project_1",
     name: "Project 1",
     createdAt: DateTime.fromMillisecondsSinceEpoch(1628787092000),
     lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(1628787164000),
@@ -208,6 +209,7 @@ List<Project> localProjects = [
     ],
   ),
   Project(
+    filename: "project_2",
     name: "Project 2",
     createdAt: DateTime.fromMillisecondsSinceEpoch(1628787092000),
     lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(1628787164000),
@@ -231,6 +233,7 @@ List<Project> localProjects = [
     ],
   ),
   Project(
+    filename: "a_project_that_has_a_long_name",
     name: "A Project that has a long name",
     createdAt: DateTime.fromMillisecondsSinceEpoch(1628810601000),
     lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(1628810627000),

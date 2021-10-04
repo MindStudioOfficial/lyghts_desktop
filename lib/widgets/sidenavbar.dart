@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
+import 'package:lyghts_desktop/models.dart';
 
 class SideNavBar extends StatefulWidget {
   final Function(int index) onPageChange;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/config.dart';
-import 'package:lomp_desktop/models.dart';
+import 'package:lyghts_desktop/config.dart';
+import 'package:lyghts_desktop/models.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onLoginSuccess;

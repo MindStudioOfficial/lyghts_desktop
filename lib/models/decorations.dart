@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
+import 'package:lyghts_desktop/models.dart';
 
 BoxDecoration appBackgroundDecoration = BoxDecoration(
   gradient: LinearGradient(

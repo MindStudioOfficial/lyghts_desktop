@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
-import 'package:lomp_desktop/utils.dart';
+import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/utils.dart';
 
 class LayerViewer extends StatefulWidget {
   final Plan? selectedPlan;

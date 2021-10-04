@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
-import 'package:lomp_desktop/pages.dart';
-import 'package:lomp_desktop/pages/settingspage.dart';
-import 'package:lomp_desktop/utils.dart';
-import 'package:lomp_desktop/widgets.dart';
+import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/pages.dart';
+import 'package:lyghts_desktop/pages/settingspage.dart';
+import 'package:lyghts_desktop/utils.dart';
+import 'package:lyghts_desktop/widgets.dart';
 import 'package:screenshot/screenshot.dart';
 
 class MainContentPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _MainContentPageState extends State<MainContentPage> {
   void initState() {
     super.initState();
     selectedPlan = localProjects[0].plans[0];
-    saveProject(localProjects[0]);
+    loadProjects();
   }
 
   @override

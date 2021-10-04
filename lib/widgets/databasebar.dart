@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lomp_desktop/models.dart';
-import 'package:lomp_desktop/models/database.dart';
+import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/models/database.dart';
 import 'package:string_similarity/string_similarity.dart';
 
 // ignore: must_be_immutable
