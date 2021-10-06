@@ -5,11 +5,13 @@ abstract class SetLayer {
   bool visible;
   bool selected;
   bool highlighted;
+  String name;
   SetLayer({
     this.id = -1,
     this.visible = true,
     this.selected = false,
     this.highlighted = false,
+    this.name = "",
   });
 
   Map<String, dynamic> toJSON();
@@ -31,10 +33,11 @@ class SetElementLayer extends SetLayer {
     bool visible = true,
     bool selected = false,
     bool highlighted = false,
-  }) : super(id: id, visible: visible, selected: selected, highlighted: highlighted);
+    String name = "",
+  }) : super(id: id, visible: visible, selected: selected, highlighted: highlighted, name: name);
   @override
   String toString() {
-    return {"element": element, "id": id}.toString();
+    return {"element": element, "id": id, "name": name}.toString();
   }
 
   @override
@@ -45,6 +48,7 @@ class SetElementLayer extends SetLayer {
       'id': id,
       'visible': visible,
       'selected': selected,
+      'name': name,
     };
   }
 
@@ -54,6 +58,7 @@ class SetElementLayer extends SetLayer {
       id: json['id'] ?? -1,
       selected: json['selected'] ?? false,
       visible: json['visible'] ?? true,
+      name: json['name'] ?? "",
     );
   }
 }
@@ -61,6 +66,7 @@ class SetElementLayer extends SetLayer {
 class SetGroupLayer extends SetLayer {
   List<SetLayer> contents;
   bool expanded;
+  bool topHighlighted;
   SetGroupLayer({
     this.contents = const [],
     int id = -1,
@@ -68,19 +74,24 @@ class SetGroupLayer extends SetLayer {
     bool selected = false,
     this.expanded = true,
     bool highlighted = false,
+    this.topHighlighted = false,
+    required String name,
   }) : super(
           id: id,
           visible: visible,
           selected: selected,
           highlighted: highlighted,
+          name: name,
         );
 
-  void selectAll(bool selected) {
+  void selectAll(bool selected, {int depth = 0}) {
     for (SetLayer layer in contents) {
+      layer.selected = selected;
       if (layer is SetGroupLayer) {
-        layer.selectAll(selected);
+        if (depth > 20) return;
+
+        layer.selectAll(selected, depth: depth++);
       } else if (layer is SetElementLayer) {
-        layer.selected = selected;
         layer.element.selected = selected;
       }
     }
@@ -97,6 +108,7 @@ class SetGroupLayer extends SetLayer {
       'visible': visible,
       'selected': selected,
       'expanded': expanded,
+      'name': name,
     };
   }
 
@@ -110,6 +122,7 @@ class SetGroupLayer extends SetLayer {
       id: json['id'] ?? -1,
       selected: json['selected'] ?? false,
       visible: json['visible'] ?? true,
+      name: json['name'] ?? "",
     );
   }
 
@@ -128,60 +141,17 @@ class SetGroupLayer extends SetLayer {
     return false;
   }
 
-  void setVisibility(bool visible) {
+  void setVisibility(bool visible, {int depth = 0}) {
+    this.visible = visible;
     for (SetLayer layer in contents) {
+      layer.visible = visible;
       if (layer is SetGroupLayer) {
-        layer.setVisibility(visible);
+        if (depth < 20) {
+          layer.setVisibility(visible, depth: depth++);
+        }
       } else if (layer is SetElementLayer) {
-        layer.visible = visible;
         layer.element.visible = visible;
       }
     }
   }
-
-  /*bool contains(int setElementId) {
-    for (SetLayer layer in contents) {
-      if (layer is SetGroupLayer) {
-        if (layer.contains(setElementId)) return true;
-      } else if (layer is SetElementLayer) {
-        if (layer.element == setElementId) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }*/
-
-  /*
-  bool isVisible(int setElementId) {
-    bool visible = false;
-    for (SetLayer layer in contents) {
-      if (layer is SetGroupLayer) {
-        if (layer.contains(setElementId) && layer.isVisible(setElementId) && layer.visible) {
-          visible = true;
-        }
-      } else if (layer is SetElementLayer) {
-        return layer.visible;
-      }
-    }
-    return visible;
-  }
-  */
-  /*
-  int getIndex(int setElementID) {
-    int index = 0;
-    for (SetLayer layer in contents) {
-      if (layer is SetGroupLayer) {
-        index += layer.getIndex(setElementID);
-      } else if (layer is SetElementLayer) {
-        if (layer.id == setElementID) {
-          return index;
-        } else {
-          index++;
-        }
-      }
-    }
-
-    return index;
-  }*/
 }

@@ -176,7 +176,7 @@ class _ColorPickerBodyState extends State<ColorPickerBody> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Cancel",
-                    style: defaultTextStyle.copyWith(fontSize: 30),
+                    style: defaultTextStyle.copyWith(fontSize: 20),
                   ),
                 ),
               ),
@@ -184,7 +184,7 @@ class _ColorPickerBodyState extends State<ColorPickerBody> {
                 width: 16,
               ),
               TextButton(
-                style: iconTextButtonStyle,
+                style: highlightedIconTextButtonStyle,
                 onPressed: () {
                   widget.onValueChanged(newColor.toColor());
                   List<Color> newCH = widget.colorHistory.toList();
@@ -204,7 +204,7 @@ class _ColorPickerBodyState extends State<ColorPickerBody> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Apply",
-                    style: defaultTextStyle.copyWith(fontSize: 30),
+                    style: defaultTextStyle.copyWith(fontSize: 20),
                   ),
                 ),
               ),

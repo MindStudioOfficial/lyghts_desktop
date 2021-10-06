@@ -18,17 +18,17 @@ class LayerBar extends StatefulWidget {
   _LayerBarState createState() => _LayerBarState();
 }
 
-class _LayerBarState extends State<LayerBar> {
-  Map<Layers, IconData> layerIcons = {
-    Layers.shape: Icons.category_sharp,
-    Layers.light: Icons.tungsten_sharp,
-    Layers.camera: Icons.videocam_sharp,
-    Layers.power: Icons.power_sharp,
-    Layers.decoration: Icons.chair_sharp,
-    Layers.data: Icons.info_sharp,
-    Layers.text: Icons.title,
-  };
+Map<Layers, IconData> layerIcons = {
+  Layers.shape: Icons.category_sharp,
+  Layers.light: Icons.tungsten_sharp,
+  Layers.camera: Icons.videocam_sharp,
+  Layers.power: Icons.power_sharp,
+  Layers.decoration: Icons.chair_sharp,
+  Layers.data: Icons.info_sharp,
+  Layers.text: Icons.title,
+};
 
+class _LayerBarState extends State<LayerBar> {
   @override
   Widget build(BuildContext context) {
     return Align(

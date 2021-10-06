@@ -30,6 +30,7 @@ Color appWindowTitleColor = Colors.white.withOpacity(0.3);
 Color defaultIconColor = Colors.grey.shade600;
 Color selectedIconColor = Colors.white;
 Color iconButtonBackgroundColor = const Color.fromRGBO(32, 32, 32, 1);
+Color hIconButtonBackgroundColor = const Color.fromRGBO(55, 55, 55, 1);
 
 // TEXTFIELD
 Color defaultTextFieldBorderColor = Colors.grey.shade500;
@@ -57,5 +58,5 @@ Color setElementPaintColor = Colors.grey.shade700.withOpacity(.5);
 Color setElementShapeColor = Colors.black;
 
 Color layerViewerDeselectedColor = const Color.fromRGBO(12, 12, 12, 1);
-Color layerViewerSelectedColor = const Color.fromRGBO(24, 24, 24, 1);
-Color layerViewerBackgroundColor = const Color.fromRGBO(18, 18, 18, 1);
+Color layerViewerSelectedColor = const Color.fromRGBO(32, 32, 32, 1);
+Color layerViewerBackgroundColor = const Color.fromRGBO(18, 18, 18, .1);

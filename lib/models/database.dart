@@ -138,6 +138,7 @@ List<Project> localProjects = [
         lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(1628787164000),
         setLayers: [
           SetGroupLayer(
+            name: "RandomStuff",
             visible: false,
             contents: [
               SetElementLayer(

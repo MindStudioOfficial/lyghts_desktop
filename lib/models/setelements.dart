@@ -100,7 +100,7 @@ class Camera extends SetElement {
 
   @override
   String getDisplayString() {
-    return "Camera $manufacturer $model";
+    return "$manufacturer $model";
   }
 }
 
@@ -383,7 +383,7 @@ class LightFixture extends SetElement {
 
   @override
   String getDisplayString() {
-    return "Light $manufacturer $model";
+    return "$manufacturer $model";
   }
 }
 /*class GeneralSetElement extends SetElement {
@@ -559,7 +559,7 @@ class SetDecoration extends SetElement {
 
   @override
   String getDisplayString() {
-    return "Decoration $id";
+    return "$id";
   }
 
   factory SetDecoration.fromJSON(Map<String, dynamic> json) {
@@ -725,7 +725,7 @@ class SetShape extends SetElement {
 
   @override
   String getDisplayString() {
-    return "Shape ${type.toString().split(".").last} $id";
+    return type.toString().split(".").last;
   }
 }
 

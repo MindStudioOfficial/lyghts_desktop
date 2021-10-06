@@ -33,3 +33,6 @@ ButtonStyle iconTextButtonStyle = ButtonStyle(
     const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
   ),
 );
+
+ButtonStyle highlightedIconTextButtonStyle =
+    iconTextButtonStyle.copyWith(backgroundColor: MaterialStateProperty.all(hIconButtonBackgroundColor));
