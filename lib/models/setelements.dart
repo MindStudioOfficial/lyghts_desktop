@@ -1,5 +1,50 @@
 import 'package:flutter/material.dart';
 
+abstract class SetElement {
+  double angle;
+  int id;
+  Offset position;
+  String notes;
+  bool selected;
+  bool visible;
+  SetElement({
+    this.angle = 0,
+    this.position = Offset.zero,
+    this.notes = "",
+    this.selected = false,
+    this.visible = true,
+    this.id = -1,
+  });
+
+  SetElement copyWith({double angle, Offset position, String notes, bool selected, bool visible, int id});
+
+  String getSearchString();
+  String getDisplayString();
+
+  Map<String, dynamic> toJSON();
+
+  factory SetElement.fromJSON(Map<String, dynamic> json) {
+    switch (json['type']) {
+      case 'camera':
+        return Camera.fromJSON(json);
+      case 'lightFixture':
+        return LightFixture.fromJSON(json);
+      case 'setShape':
+        return SetShape.fromJSON(json);
+      case 'setDecoration':
+        return SetDecoration.fromJSON(json);
+      default:
+        return SetShape(
+          size: const Size(100, 100),
+          type: ShapeType.rectangle,
+          fill: Colors.red,
+          outline: Colors.black,
+          position: const Offset(100, 100),
+        );
+    }
+  }
+}
+
 class Camera extends SetElement {
   String? manufacturer;
 
@@ -29,7 +74,7 @@ class Camera extends SetElement {
     Offset? position,
     String? notes,
     bool? selected,
-    bool? visibile,
+    bool? visible,
     String? manufacturer,
     String? model,
     double? focalLength,
@@ -48,7 +93,7 @@ class Camera extends SetElement {
       notes: notes ?? this.notes,
       position: position ?? this.position,
       selected: selected ?? this.selected,
-      visible: visible,
+      visible: visible ?? this.visible,
       zoom: zoom ?? this.zoom,
       id: id ?? this.id,
     );
@@ -220,7 +265,7 @@ class LightFixture extends SetElement {
     Offset? position,
     String? notes,
     bool? selected,
-    bool? visibile,
+    bool? visible,
     String? manufacturer,
     String? model,
     double? power,
@@ -285,7 +330,7 @@ class LightFixture extends SetElement {
       protectionClass: protectionClass ?? this.protectionClass,
       range: range ?? this.range,
       selected: selected ?? this.selected,
-      visible: visible,
+      visible: visible ?? this.visible,
       weight: weight ?? this.weight,
       zoom: zoom ?? this.zoom,
     );
@@ -539,7 +584,7 @@ class SetDecoration extends SetElement {
     Offset? position,
     String? notes,
     bool? selected,
-    bool? visibile,
+    bool? visible,
     int? id,
   }) {
     return SetDecoration(
@@ -547,7 +592,7 @@ class SetDecoration extends SetElement {
       notes: notes ?? this.notes,
       position: position ?? this.position,
       selected: selected ?? this.selected,
-      visible: visible,
+      visible: visible ?? this.visible,
       id: id ?? this.id,
     );
   }
@@ -590,51 +635,6 @@ class SetDecoration extends SetElement {
   }
 }
 
-abstract class SetElement {
-  double angle;
-  int id;
-  Offset position;
-  String notes;
-  bool selected;
-  bool visible;
-  SetElement({
-    this.angle = 0,
-    this.position = Offset.zero,
-    this.notes = "",
-    this.selected = false,
-    this.visible = true,
-    this.id = -1,
-  });
-
-  SetElement copyWith({double angle, Offset position, String notes, bool selected, bool visibile, int id});
-
-  String getSearchString();
-  String getDisplayString();
-
-  Map<String, dynamic> toJSON();
-
-  factory SetElement.fromJSON(Map<String, dynamic> json) {
-    switch (json['type']) {
-      case 'camera':
-        return Camera.fromJSON(json);
-      case 'lightFixture':
-        return LightFixture.fromJSON(json);
-      case 'setShape':
-        return SetShape.fromJSON(json);
-      case 'setDecoration':
-        return SetDecoration.fromJSON(json);
-      default:
-        return SetShape(
-          size: const Size(100, 100),
-          type: ShapeType.rectangle,
-          fill: Colors.red,
-          outline: Colors.black,
-          position: const Offset(100, 100),
-        );
-    }
-  }
-}
-
 class SetShape extends SetElement {
   Size size;
   ShapeType type;
@@ -659,7 +659,7 @@ class SetShape extends SetElement {
     Offset? position,
     String? notes,
     bool? selected,
-    bool? visibile,
+    bool? visible,
     Size? size,
     ShapeType? type,
     Color? fill,
@@ -676,7 +676,7 @@ class SetShape extends SetElement {
       fill: fill ?? this.fill,
       notes: notes ?? this.notes,
       selected: selected ?? this.selected,
-      visible: visible,
+      visible: visible ?? this.visible,
     );
   }
 
@@ -733,4 +733,120 @@ enum ShapeType {
   rectangle,
   circle,
   square,
+}
+
+class SetLabel extends SetElement {
+  String text;
+  double fontSize;
+  Color color;
+  bool italic;
+  bool bold;
+  bool underlined;
+  TextAlign align;
+  Size size;
+  SetLabel({
+    double angle = 0,
+    int id = -1,
+    Offset position = const Offset(0, 0),
+    String notes = "",
+    bool selected = false,
+    bool visible = true,
+    this.text = "",
+    this.fontSize = 15,
+    this.color = Colors.black,
+    this.italic = false,
+    this.bold = false,
+    this.underlined = false,
+    this.align = TextAlign.left,
+    this.size = const Size(200, 50),
+  }) : super(angle: angle, id: id, notes: notes, position: position, selected: selected, visible: visible);
+
+  @override
+  SetLabel copyWith({
+    String? text,
+    double? angle,
+    Offset? position,
+    String? notes,
+    bool? selected,
+    bool? visible,
+    int? id,
+    double? fontSize,
+    Color? color,
+    bool? italic,
+    bool? bold,
+    bool? underlined,
+    Size? size,
+  }) {
+    return SetLabel(
+      angle: angle ?? this.angle,
+      bold: bold ?? this.bold,
+      color: color ?? this.color,
+      fontSize: fontSize ?? this.fontSize,
+      id: id ?? this.id,
+      italic: italic ?? this.italic,
+      notes: notes ?? this.notes,
+      position: position ?? this.position,
+      selected: selected ?? this.selected,
+      underlined: underlined ?? this.underlined,
+      visible: visible ?? this.visible,
+      text: text ?? this.text,
+      size: size ?? this.size,
+    );
+  }
+
+  @override
+  String getDisplayString() {
+    return '"$text"';
+  }
+
+  @override
+  String getSearchString() {
+    return text;
+  }
+
+  @override
+  Map<String, dynamic> toJSON() {
+    return {
+      'type': "setLabel",
+      'angle': angle,
+      'bold': bold,
+      'color': color.value,
+      'fontSize': fontSize,
+      'id': id,
+      'italic': italic,
+      'notes': notes,
+      'position': {
+        'dx': position.dx,
+        'dy': position.dy,
+      },
+      'selected': selected,
+      'underlined': underlined,
+      'visible': visible,
+      'text': text,
+      'align': align.index,
+      'size': {
+        'width': size.width,
+        'height': size.height,
+      }
+    };
+  }
+
+  factory SetLabel.fromJSON(Map<String, dynamic> json) {
+    return SetLabel(
+      align: TextAlign.values[json['align'] ?? 0],
+      angle: json['angle'] ?? 0,
+      bold: json['bold'] ?? false,
+      color: Color(json['color'] ?? 0),
+      fontSize: json['fontSize'] ?? 15,
+      id: json['id'] ?? -1,
+      italic: json['italic'] ?? false,
+      notes: json['notes'] ?? "",
+      position: Offset(json['position']['dx'] ?? 0, json['position']['dy'] ?? 0),
+      size: Size(json['size']['width'] ?? 200, json['size']['height'] ?? 50),
+      selected: json['selected'] ?? false,
+      text: json['text'] ?? "No Text??",
+      underlined: json['underlined'] ?? false,
+      visible: json['visible'] ?? true,
+    );
+  }
 }

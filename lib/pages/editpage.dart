@@ -48,6 +48,12 @@ class _EditPageState extends State<EditPage> {
     super.dispose();
   }
 
+  MouseCursor getCurrentCursor() {
+    if (moveClicked) return SystemMouseCursors.allScroll;
+    if (selectedTool == EditTools.label) return SystemMouseCursors.text;
+    return SystemMouseCursors.basic;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -90,7 +96,7 @@ class _EditPageState extends State<EditPage> {
                 }
               },
               child: MouseRegion(
-                cursor: moveClicked ? SystemMouseCursors.allScroll : SystemMouseCursors.basic,
+                cursor: getCurrentCursor(),
                 child: Stack(
                   children: [
                     Container(
@@ -129,8 +135,14 @@ class _EditPageState extends State<EditPage> {
                               },
                               selectedTool: selectedTool,
                               onAddElement: (element) {
-                                widget.selectedPlan!.setLayers
-                                    .insert(0, SetElementLayer(element: element, selected: true, visible: true));
+                                widget.selectedPlan!.setLayers.insert(
+                                  0,
+                                  SetElementLayer(
+                                    element: element,
+                                    selected: true,
+                                    visible: true,
+                                  ),
+                                );
                                 selectedSetElement = element;
                                 selectedDatabaseElement = null;
 
@@ -163,17 +175,24 @@ class _EditPageState extends State<EditPage> {
               direction: Axis.horizontal,
               onToolChanged: (tool) {
                 selectedTool = tool;
+                if (tool == EditTools.label) {
+                  selectedDatabaseElement = null;
+                  selectedSetElement = null;
+                  deselectDataBaseElement = true;
+                }
                 setState(() {});
               },
               initialTool: selectedTool,
             ),
             DatabaseBar(
               deselect: deselectDataBaseElement,
-              onElementSelected: (element) {
-                deselectDataBaseElement = false;
-                selectedDatabaseElement = element;
-                setState(() {});
-              },
+              onElementSelected: selectedTool == EditTools.label
+                  ? (_) {}
+                  : (element) {
+                      deselectDataBaseElement = false;
+                      selectedDatabaseElement = element;
+                      setState(() {});
+                    },
               height: constraints.maxHeight * 0.499,
               alignment: Alignment.topRight,
               onExpandChange: () {

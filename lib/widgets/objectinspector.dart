@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lyghts_desktop/models.dart';
 import 'package:lyghts_desktop/widgets.dart';
 
-class ObjectInspector extends StatelessWidget {
+class ObjectInspector extends StatefulWidget {
   final Alignment alignment;
   final double height;
   final bool expanded;
@@ -24,9 +26,14 @@ class ObjectInspector extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ObjectInspector> createState() => _ObjectInspectorState();
+}
+
+class _ObjectInspectorState extends State<ObjectInspector> {
+  @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: alignment,
+      alignment: widget.alignment,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,21 +42,21 @@ class ObjectInspector extends StatelessWidget {
             color: objectInspectorBackgroundColor,
             child: IconButton(
               icon: Icon(
-                expanded ? Icons.arrow_forward_ios_sharp : Icons.arrow_back_ios_sharp,
+                widget.expanded ? Icons.arrow_forward_ios_sharp : Icons.arrow_back_ios_sharp,
                 size: 15,
                 color: Colors.white,
               ),
               onPressed: () {
-                onExpandChange();
+                widget.onExpandChange();
               },
             ),
           ),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOutCubic,
-            constraints: BoxConstraints(maxHeight: height),
-            height: height,
-            width: expanded ? 300 : 5,
+            constraints: BoxConstraints(maxHeight: widget.height),
+            height: widget.height,
+            width: widget.expanded ? 300 : 5,
             color: objectInspectorBackgroundColor,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -57,7 +64,7 @@ class ObjectInspector extends StatelessWidget {
               child: SizedBox(
                 width: 300,
                 child: Column(
-                  children: elementProperties(setElement),
+                  children: elementProperties(widget.setElement),
                 ),
               ),
             ),
@@ -70,17 +77,18 @@ class ObjectInspector extends StatelessWidget {
   List<Widget> elementProperties(SetElement? e) {
     List<Widget> w = [];
     ScrollController scrollController = ScrollController();
+
     if (e != null) {
       w.add(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            controller: TextEditingController(text: setElement!.notes),
+            controller: TextEditingController(text: widget.setElement!.notes),
             maxLines: 3,
             decoration: defaultTextFieldDecoration.copyWith(hintText: "Notes"),
             style: textFieldStyle,
             onChanged: (value) {
-              setElement!.notes = value;
+              widget.setElement!.notes = value;
             },
           ),
         ),
@@ -99,15 +107,15 @@ class ObjectInspector extends StatelessWidget {
                   width: 8,
                 ),
                 CustomColorPicker(
-                  colorHistory: selectedPlan != null ? selectedPlan!.colorHistory : [],
+                  colorHistory: widget.selectedPlan != null ? widget.selectedPlan!.colorHistory : [],
                   onColorHistoryChanged: (colorHistory) {
-                    onColorHistoryChanged(colorHistory);
+                    widget.onColorHistoryChanged(colorHistory);
                   },
                   initialColor: e.fill,
                   size: const Size(25, 25),
                   onColorChanged: (color) {
                     e.fill = color;
-                    onUpdate();
+                    widget.onUpdate();
                   },
                 ),
                 const SizedBox(
@@ -121,16 +129,131 @@ class ObjectInspector extends StatelessWidget {
                   width: 8,
                 ),
                 CustomColorPicker(
-                  colorHistory: selectedPlan != null ? selectedPlan!.colorHistory : [],
+                  colorHistory: widget.selectedPlan != null ? widget.selectedPlan!.colorHistory : [],
                   onColorHistoryChanged: (colorHistory) {
-                    onColorHistoryChanged(colorHistory);
+                    widget.onColorHistoryChanged(colorHistory);
                   },
                   initialColor: e.outline,
                   size: const Size(25, 25),
                   onColorChanged: (color) {
                     e.outline = color;
-                    onUpdate();
+                    widget.onUpdate();
                   },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      if (e is SetLabel) {
+        TextEditingController fontSizeController =
+            TextEditingController.fromValue(TextEditingValue(text: e.fontSize.toString()));
+        w.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CustomColorPicker(
+                  colorHistory: widget.selectedPlan != null ? widget.selectedPlan!.colorHistory : [],
+                  onColorHistoryChanged: (colorHistory) {
+                    widget.onColorHistoryChanged(colorHistory);
+                  },
+                  initialColor: e.color,
+                  size: const Size(25, 25),
+                  onColorChanged: (color) {
+                    e.color = color;
+                    widget.onUpdate();
+                  },
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                IconButton(
+                  onPressed: () {
+                    e.bold = !e.bold;
+                    widget.onUpdate();
+                  },
+                  iconSize: 20,
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.all(4),
+                  icon: Icon(
+                    Icons.format_bold_sharp,
+                    color: e.bold ? selectedIconColor : defaultIconColor,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    e.italic = !e.italic;
+                    widget.onUpdate();
+                  },
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.all(4),
+                  iconSize: 20,
+                  icon: Icon(
+                    Icons.format_italic_sharp,
+                    color: e.italic ? selectedIconColor : defaultIconColor,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    e.underlined = !e.underlined;
+                    widget.onUpdate();
+                  },
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.all(4),
+                  iconSize: 20,
+                  icon: Icon(
+                    Icons.format_underline_sharp,
+                    color: e.underlined ? selectedIconColor : defaultIconColor,
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Icon(
+                  Icons.format_size_sharp,
+                  size: 20,
+                  color: selectedIconColor,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                SizedBox(
+                  width: 99,
+                  child: TextField(
+                    controller: fontSizeController,
+                    decoration: defaultTextFieldDecoration.copyWith(
+                      hintStyle: const TextStyle(fontSize: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      isDense: true,
+                    ),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    maxLines: 1,
+                    cursorHeight: 16,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    inputFormatters: [
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        double? d = double.tryParse(newValue.text);
+                        if (d == null) {
+                          return oldValue;
+                        }
+                        d.clamp(1, 2000);
+                        return newValue.copyWith(text: d.toStringAsFixed(2));
+                      }),
+                    ],
+                    onEditingComplete: () {
+                      double? d = double.tryParse(fontSizeController.text);
+                      if (d == null) {
+                        e.fontSize = 15;
+                      } else {
+                        e.fontSize = d;
+                      }
+                      widget.onUpdate();
+                    },
+                  ),
                 ),
               ],
             ),
@@ -180,22 +303,23 @@ class ObjectInspector extends StatelessWidget {
   }
 
   List<DataRow> getProperties() {
-    if (setElement == null) return [];
-    SetElement e = setElement!;
+    if (widget.setElement == null) return [];
+    SetElement e = widget.setElement!;
     List<DataRow> d = [];
     d.addAll(
       [
         DataRow(
           cells: [
             DataCell(_propertyText("Position")),
-            DataCell(_propertyText(
-                setElement!.position.dx.toStringAsFixed(2) + ", " + setElement!.position.dy.toStringAsFixed(2))),
+            DataCell(_propertyText(widget.setElement!.position.dx.toStringAsFixed(2) +
+                ", " +
+                widget.setElement!.position.dy.toStringAsFixed(2))),
           ],
         ),
         DataRow(
           cells: [
             DataCell(_propertyText("Angle")),
-            DataCell(_propertyText(setElement!.angle.toStringAsFixed(2) + "°")),
+            DataCell(_propertyText(widget.setElement!.angle.toStringAsFixed(2) + "°")),
           ],
         ),
       ],
@@ -256,6 +380,28 @@ class ObjectInspector extends StatelessWidget {
           cells: [
             DataCell(_propertyText("Height")),
             DataCell(_propertyText(e.size.height.toStringAsFixed(2))),
+          ],
+        ),
+      ]);
+    }
+    if (e is SetLabel) {
+      d.addAll([
+        DataRow(
+          cells: [
+            DataCell(_propertyText("Width")),
+            DataCell(_propertyText(e.size.width.toStringAsFixed(2))),
+          ],
+        ),
+        DataRow(
+          cells: [
+            DataCell(_propertyText("Height")),
+            DataCell(_propertyText(e.size.height.toStringAsFixed(2))),
+          ],
+        ),
+        DataRow(
+          cells: [
+            DataCell(_propertyText("Font Size")),
+            DataCell(_propertyText(e.fontSize.toStringAsFixed(2))),
           ],
         ),
       ]);

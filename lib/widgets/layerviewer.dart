@@ -412,6 +412,7 @@ class _LayerViewerState extends State<LayerViewer> {
     if (e is LightFixture) return Icon(Icons.tungsten_sharp, size: 15, color: selectedIconColor);
     if (e is Camera) return Icon(Icons.videocam_sharp, size: 15, color: selectedIconColor);
     if (e is SetDecoration) return Icon(Icons.chair_sharp, size: 15, color: selectedIconColor);
+    if (e is SetLabel) return Icon(Icons.title_sharp, size: 15, color: selectedIconColor);
     return Icon(Icons.quiz_sharp, size: 15, color: selectedIconColor);
   }
 
@@ -550,12 +551,24 @@ class _LayerViewerState extends State<LayerViewer> {
                       context: context,
                       builder: (context) {
                         return RenameDialog(
+                          maxLength: 40,
+                          title: "Rename Layer",
                           initialValue: selectedLayer!.name.isEmpty
                               ? (selectedLayer is SetGroupLayer ? "Unnamed Group" : "Unnamed Element")
                               : selectedLayer!.name,
                           onRenameComplete: (value) {
                             setState(() {
-                              selectedLayer!.name = value;
+                              SetLayer l = selectedLayer!;
+                              if (l is SetElementLayer) {
+                                SetElement e = l.element;
+                                if (e is SetLabel) {
+                                  e.text = value;
+                                } else {
+                                  selectedLayer!.name = value;
+                                }
+                              } else {
+                                selectedLayer!.name = value;
+                              }
                             });
                             widget.onUpdate();
                           },

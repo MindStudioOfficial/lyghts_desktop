@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
 import 'package:lyghts_desktop/painters/camerapainter.dart';
@@ -108,6 +109,34 @@ class _EditCanvasState extends State<EditCanvas> {
                       color: Colors.black.withOpacity(.1),
                     ),
                   ),
+                if (widget.selectedTool == EditTools.label)
+                  Listener(
+                    onPointerDown: (event) {
+                      if (checkBit(event.buttons, 0)) {
+                        resetSelected();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return RenameDialog(
+                              initialValue: "New Label",
+                              onRenameComplete: (value) {
+                                widget.onAddElement(
+                                  SetLabel(position: event.localPosition, text: value, selected: true),
+                                );
+
+                                setState(() {});
+                              },
+                              maxLength: 64,
+                              title: "New Label",
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: Container(
+                      color: Colors.black.withOpacity(.1),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -181,52 +210,110 @@ class _EditCanvasState extends State<EditCanvas> {
                     type: e.type,
                   ),
                 ),
-              Align(
-                alignment: Alignment.center,
-                child: MouseRegion(
-                  cursor: cursor,
-                  child: GestureDetector(
-                    // just for blocking event to parent detector
-                    onPanStart: (details) {},
-                    onTap: () {
-                      if (!e.selected) {
-                        resetSelected();
-                        e.selected = true;
-                        widget.onSetElementSelected(e);
-                      } else {
-                        widget.onSetElementSelected(null);
-                        e.selected = false;
-                      }
-                    },
-                    child: Listener(
-                      onPointerMove: (event) {
-                        if (widget.selectedTool == EditTools.move && checkBit(event.buttons, 0)) {
-                          widget.onMoveBlocked(true);
-                          if (widget.moveBlocked) {
-                            Offset newPos = e.position + event.delta / widget.zoomFac;
-                            if (newPos.dx > 0 && newPos.dx < widget.plan.size.width) {
-                              if (newPos.dy > 0 && newPos.dy < widget.plan.size.height) {
-                                e.position = newPos;
-                              }
-                            }
-                          }
-
-                          setState(() {});
+              if (e is SetLabel)
+                Align(
+                  alignment: Alignment.center,
+                  child: MouseRegion(
+                    cursor: cursor,
+                    child: GestureDetector(
+                      // just for blocking event to parent detector
+                      onPanStart: (details) {},
+                      onTap: () {
+                        if (!e.selected) {
+                          resetSelected();
+                          e.selected = true;
+                          widget.onSetElementSelected(e);
+                        } else {
+                          widget.onSetElementSelected(null);
+                          e.selected = false;
                         }
                       },
-                      onPointerUp: (event) {
-                        widget.onMoveBlocked(false);
-                      },
-                      child: Container(
-                        decoration: e.selected ? selectedElementDecoration : unselectedElementDecoration,
-                        width: 100,
-                        height: 100,
-                        child: Transform.rotate(angle: vm.radians(-e.angle + -90), child: elementIcon(e)),
+                      child: Listener(
+                        onPointerMove: (event) {
+                          if (widget.selectedTool == EditTools.move && checkBit(event.buttons, 0)) {
+                            widget.onMoveBlocked(true);
+                            if (widget.moveBlocked) {
+                              Offset newPos = e.position + event.delta / widget.zoomFac;
+                              if (newPos.dx > 0 && newPos.dx < widget.plan.size.width) {
+                                if (newPos.dy > 0 && newPos.dy < widget.plan.size.height) {
+                                  e.position = newPos;
+                                }
+                              }
+                            }
+
+                            setState(() {});
+                          }
+                        },
+                        onPointerUp: (event) {
+                          widget.onMoveBlocked(false);
+                        },
+                        child: Container(
+                          decoration: e.selected ? selectedElementDecoration : unselectedElementDecoration,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(
+                              e.text,
+                              style: TextStyle(
+                                fontSize: e.fontSize,
+                                color: e.color,
+                                fontStyle: e.italic ? FontStyle.italic : FontStyle.normal,
+                                fontWeight: e.bold ? FontWeight.bold : FontWeight.normal,
+                                decoration: e.underlined ? TextDecoration.underline : TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              if (e is! SetLabel)
+                Align(
+                  alignment: Alignment.center,
+                  child: MouseRegion(
+                    cursor: cursor,
+                    child: GestureDetector(
+                      // just for blocking event to parent detector
+                      onPanStart: (details) {},
+                      onTap: () {
+                        if (!e.selected) {
+                          resetSelected();
+                          e.selected = true;
+                          widget.onSetElementSelected(e);
+                        } else {
+                          widget.onSetElementSelected(null);
+                          e.selected = false;
+                        }
+                      },
+                      child: Listener(
+                        onPointerMove: (event) {
+                          if (widget.selectedTool == EditTools.move && checkBit(event.buttons, 0)) {
+                            widget.onMoveBlocked(true);
+                            if (widget.moveBlocked) {
+                              Offset newPos = e.position + event.delta / widget.zoomFac;
+                              if (newPos.dx > 0 && newPos.dx < widget.plan.size.width) {
+                                if (newPos.dy > 0 && newPos.dy < widget.plan.size.height) {
+                                  e.position = newPos;
+                                }
+                              }
+                            }
+
+                            setState(() {});
+                          }
+                        },
+                        onPointerUp: (event) {
+                          widget.onMoveBlocked(false);
+                        },
+                        child: Container(
+                          decoration: e.selected ? selectedElementDecoration : unselectedElementDecoration,
+                          width: 100,
+                          height: 100,
+                          child: Transform.rotate(angle: vm.radians(-e.angle + -90), child: elementIcon(e)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               if (e.selected && widget.selectedTool == EditTools.select)
                 Positioned(
                   left: (painterSize.width) / 2 - 12.5 - 50,
@@ -496,7 +583,8 @@ class _EditCanvasState extends State<EditCanvas> {
     if ((e is LightFixture && widget.layerVisibility[Layers.light]!) ||
         (e is Camera && widget.layerVisibility[Layers.camera]!) ||
         (e is SetShape && widget.layerVisibility[Layers.shape]!) ||
-        (e is SetDecoration && widget.layerVisibility[Layers.decoration]!)) {
+        (e is SetDecoration && widget.layerVisibility[Layers.decoration]!) ||
+        (e is SetLabel && widget.layerVisibility[Layers.text]!)) {
       return true;
     } else {
       return false;
@@ -540,6 +628,9 @@ class _EditCanvasState extends State<EditCanvas> {
       return Container();
     }
     if (e is SetShape) {
+      return Container();
+    }
+    if (e is SetLabel) {
       return Container();
     }
     return Icon(
