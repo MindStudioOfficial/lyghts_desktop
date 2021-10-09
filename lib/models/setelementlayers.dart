@@ -22,6 +22,8 @@ abstract class SetLayer {
       return SetGroupLayer.fromJSON(json);
     }
   }
+
+  SetLayer copyWith();
 }
 
 class SetElementLayer extends SetLayer {
@@ -61,6 +63,16 @@ class SetElementLayer extends SetLayer {
       name: json['name'] ?? "",
     );
   }
+  @override
+  SetElementLayer copyWith({SetElement? element, int? id, bool? visible, bool? selected, String? name}) {
+    return SetElementLayer(
+      element: element ?? this.element,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      visible: visible ?? this.visible,
+      selected: selected ?? this.selected,
+    );
+  }
 }
 
 class SetGroupLayer extends SetLayer {
@@ -83,6 +95,25 @@ class SetGroupLayer extends SetLayer {
           highlighted: highlighted,
           name: name,
         );
+
+  @override
+  SetGroupLayer copyWith({
+    List<SetLayer>? contents,
+    String? name,
+    int? id,
+    bool? visible,
+    bool? selected,
+    bool? expanded,
+  }) {
+    return SetGroupLayer(
+      name: name ?? this.name,
+      contents: contents ?? this.contents,
+      expanded: expanded ?? this.expanded,
+      id: id ?? this.id,
+      selected: selected ?? this.selected,
+      visible: visible ?? this.visible,
+    );
+  }
 
   void selectAll(bool selected, {int depth = 0}) {
     for (SetLayer layer in contents) {

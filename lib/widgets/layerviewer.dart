@@ -545,20 +545,59 @@ class _LayerViewerState extends State<LayerViewer> {
             ),
           ),
           IconButton(
+            onPressed: (selectedLayer != null && selectedLayer is SetElementLayer)
+                ? () {
+                    SetLayer l = selectedLayer!;
+                    if (l is SetElementLayer) {
+                      SetElement e = l.element;
+                      setState(() {
+                        resetSelected();
+                        widget.selectedPlan!.setLayers.add(
+                          l.copyWith(
+                            element: e.copyWith(
+                              position: e.position + const Offset(100, 100),
+                              selected: true,
+                            ),
+                            name: (l.name.isEmpty ? l.element.getDisplayString() : l.name) + " Copy",
+                            selected: true,
+                          ),
+                        );
+                        widget.onSetElementSelected(e);
+                        selectedLayer = l;
+                      });
+                    }
+                  }
+                : null,
+            icon: Icon(
+              Icons.content_copy_sharp,
+              color: (selectedLayer != null && selectedLayer is SetElementLayer) ? selectedIconColor : defaultIconColor,
+            ),
+          ),
+          IconButton(
             onPressed: selectedLayer != null
                 ? () {
+                    String initialString = "";
+                    if (selectedLayer!.name.isEmpty) {
+                      initialString = selectedLayer is SetGroupLayer ? "Unnamed Group" : "Unnamed Element";
+                    } else {
+                      initialString = selectedLayer!.name;
+                    }
+                    SetLayer l = selectedLayer!;
+                    if (l is SetElementLayer) {
+                      SetElement e = l.element;
+                      if (e is SetLabel) {
+                        initialString = e.text;
+                      }
+                    }
                     showDialog(
                       context: context,
                       builder: (context) {
                         return RenameDialog(
                           maxLength: 40,
                           title: "Rename Layer",
-                          initialValue: selectedLayer!.name.isEmpty
-                              ? (selectedLayer is SetGroupLayer ? "Unnamed Group" : "Unnamed Element")
-                              : selectedLayer!.name,
+                          initialValue: initialString,
                           onRenameComplete: (value) {
                             setState(() {
-                              SetLayer l = selectedLayer!;
                               if (l is SetElementLayer) {
                                 SetElement e = l.element;
                                 if (e is SetLabel) {
