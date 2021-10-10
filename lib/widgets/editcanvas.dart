@@ -57,91 +57,81 @@ class _EditCanvasState extends State<EditCanvas> {
   @override
   Widget build(BuildContext context) {
     var widgetKey = GlobalKey();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.plan.name,
-          style: defaultTextStyle.copyWith(fontSize: 45),
-        ),
-        Screenshot(
-          controller: widget.screenshotController,
-          child: Container(
-            key: widgetKey,
-            decoration: canvasBackgroundDecoration,
-            width: widget.plan.size.width,
-            height: widget.plan.size.height,
-            child: Stack(
-              children: [
-                if (widget.plan.backgroundImage != null) Image.memory(widget.plan.backgroundImage!),
-                const WaterMarc(
-                  alignment: Alignment.bottomLeft,
-                ),
-                ...generateSetElements(widget.plan.setLayers),
-                selectedOverlay(),
-                if (widget.selectedDatabaseElement != null)
-                  Listener(
-                    //Hitdetector for new SetElements
-                    onPointerDown: (details) {
-                      //Place on Leftclick
-                      if (checkBit(details.buttons, 0)) {
-                        resetSelected();
-                        widget.onAddElement(
-                          widget.selectedDatabaseElement!.copyWith(position: details.localPosition, selected: true),
-                        );
-                        //widget.onSetElementSelected(widget.plan.setLayers.);
-                        setState(() {});
-                      }
-                      //Abort on Rightclick or Middleclick
-                      if (checkBit(details.buttons, 1) || checkBit(details.buttons, 2)) {
-                        widget.onAbortAddElement();
-                      }
-                    },
-                    onPointerHover: (event) {
-                      if (widget.selectedDatabaseElement != null) {
-                        setState(() {
-                          localCurserPos = event.localPosition;
-                        });
-                      }
-                    },
-                    child: Container(
-                      color: Colors.black.withOpacity(.1),
-                    ),
-                  ),
-                if (widget.selectedTool == EditTools.label)
-                  Listener(
-                    onPointerDown: (event) {
-                      if (checkBit(event.buttons, 0)) {
-                        resetSelected();
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return RenameDialog(
-                              initialValue: "New Label",
-                              onRenameComplete: (value) {
-                                widget.onAddElement(
-                                  SetLabel(position: event.localPosition, text: value, selected: true),
-                                );
-
-                                setState(() {});
-                              },
-                              maxLength: 64,
-                              title: "New Label",
-                            );
-                          },
-                        );
-                      }
-                    },
-                    child: Container(
-                      color: Colors.black.withOpacity(.1),
-                    ),
-                  ),
-              ],
+    return Screenshot(
+      controller: widget.screenshotController,
+      child: Container(
+        key: widgetKey,
+        decoration: canvasBackgroundDecoration,
+        width: widget.plan.size.width,
+        height: widget.plan.size.height,
+        child: Stack(
+          children: [
+            if (widget.plan.backgroundImage != null) Image.memory(widget.plan.backgroundImage!),
+            const WaterMarc(
+              alignment: Alignment.bottomLeft,
             ),
-          ),
+            ...generateSetElements(widget.plan.setLayers),
+            selectedOverlay(),
+            if (widget.selectedDatabaseElement != null)
+              Listener(
+                //Hitdetector for new SetElements
+                onPointerDown: (details) {
+                  //Place on Leftclick
+                  if (checkBit(details.buttons, 0)) {
+                    resetSelected();
+                    widget.onAddElement(
+                      widget.selectedDatabaseElement!.copyWith(position: details.localPosition, selected: true),
+                    );
+                    //widget.onSetElementSelected(widget.plan.setLayers.);
+                    setState(() {});
+                  }
+                  //Abort on Rightclick or Middleclick
+                  if (checkBit(details.buttons, 1) || checkBit(details.buttons, 2)) {
+                    widget.onAbortAddElement();
+                  }
+                },
+                onPointerHover: (event) {
+                  if (widget.selectedDatabaseElement != null) {
+                    setState(() {
+                      localCurserPos = event.localPosition;
+                    });
+                  }
+                },
+                child: Container(
+                  color: Colors.black.withOpacity(.1),
+                ),
+              ),
+            if (widget.selectedTool == EditTools.label)
+              Listener(
+                onPointerDown: (event) {
+                  if (checkBit(event.buttons, 0)) {
+                    resetSelected();
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return RenameDialog(
+                          initialValue: "New Label",
+                          onRenameComplete: (value) {
+                            widget.onAddElement(
+                              SetLabel(position: event.localPosition, text: value, selected: true),
+                            );
+
+                            setState(() {});
+                          },
+                          maxLength: 64,
+                          title: "New Label",
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Container(
+                  color: Colors.black.withOpacity(.1),
+                ),
+              ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

@@ -61,6 +61,7 @@ class _EditPageState extends State<EditPage> {
         return Stack(
           children: [
             Listener(
+              //CANVAS
               //Detect Scrolling to zoom the plan
               onPointerSignal: (event) {
                 if (event is PointerScrollEvent) {
@@ -169,6 +170,17 @@ class _EditPageState extends State<EditPage> {
                   ],
                 ),
               ),
+            ),
+            VerticalRuler(
+                constraints: constraints,
+                canvasPos: canvasPos,
+                canvasScale: editCanvasScale,
+                canvasSize: widget.selectedPlan!.size),
+            HorizontalRuler(
+              constraints: constraints,
+              canvasPos: canvasPos,
+              canvasScale: editCanvasScale,
+              canvasSize: widget.selectedPlan!.size,
             ),
             ToolBar(
               alignment: Alignment.topCenter,

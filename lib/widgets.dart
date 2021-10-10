@@ -15,3 +15,5 @@ export 'package:lyghts_desktop/widgets/layerbar.dart';
 export 'package:lyghts_desktop/widgets/customcolorpicker.dart';
 export 'package:lyghts_desktop/widgets/layerviewer.dart';
 export 'package:lyghts_desktop/widgets/renamedialog.dart';
+export 'package:lyghts_desktop/widgets/horizontalruler.dart';
+export 'package:lyghts_desktop/widgets/verticalruler.dart';

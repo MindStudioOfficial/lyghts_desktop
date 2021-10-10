@@ -36,17 +36,23 @@ class _ToolBarState extends State<ToolBar> {
   Widget build(BuildContext context) {
     return Align(
       alignment: widget.alignment,
-      child: Container(
-        color: toolBarBackgroundColor,
-        child: widget.direction == Axis.horizontal
-            ? Row(
-                children: toolButtons(),
-                mainAxisSize: MainAxisSize.min,
-              )
-            : Column(
-                children: toolButtons(),
-                mainAxisSize: MainAxisSize.min,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 30),
+          Container(
+            color: toolBarBackgroundColor,
+            child: widget.direction == Axis.horizontal
+                ? Row(
+                    children: toolButtons(),
+                    mainAxisSize: MainAxisSize.min,
+                  )
+                : Column(
+                    children: toolButtons(),
+                    mainAxisSize: MainAxisSize.min,
+                  ),
+          ),
+        ],
       ),
     );
   }

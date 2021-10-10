@@ -60,3 +60,6 @@ Color setElementShapeColor = Colors.black;
 Color layerViewerDeselectedColor = const Color.fromRGBO(12, 12, 12, 1);
 Color layerViewerSelectedColor = const Color.fromRGBO(32, 32, 32, 1);
 Color layerViewerBackgroundColor = const Color.fromRGBO(18, 18, 18, .1);
+
+Color rulerBackgroundColor = const Color.fromRGBO(12, 12, 12, .1);
+Color rulerColor = Colors.white.withOpacity(.5);

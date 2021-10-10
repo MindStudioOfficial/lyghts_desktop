@@ -14,6 +14,7 @@ class Plan {
   List<SetLayer> setLayers;
   Uint8List? backgroundImage;
   List<Color> colorHistory;
+  double ratio;
 
   Plan({
     required this.setLayers,
@@ -26,6 +27,7 @@ class Plan {
     this.thumbnailUrl,
     this.localSelected = false,
     required this.setElements,
+    this.ratio = 1, // cm per px
   });
 
   factory Plan.fromJSON(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class Plan {
         List ch = json['colorHistory'];
         return Color(ch[index]);
       }),
+      ratio: json['ratio'],
     );
   }
 
@@ -67,7 +70,8 @@ class Plan {
       'thumbnailUrl': thumbnailUrl,
       'colorHistory': List.generate(colorHistory.length, (index) {
         return colorHistory[index].value;
-      })
+      }),
+      'ratio': ratio,
     };
   }
 }
