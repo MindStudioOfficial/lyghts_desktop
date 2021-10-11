@@ -6,6 +6,8 @@ import 'package:lyghts_desktop/utils.dart';
 import 'package:lyghts_desktop/widgets.dart';
 import 'package:screenshot/screenshot.dart';
 
+bool initialized = false;
+
 class MainContentPage extends StatefulWidget {
   final Function() onLogOut;
   const MainContentPage({Key? key, required this.onLogOut}) : super(key: key);
@@ -15,7 +17,7 @@ class MainContentPage extends StatefulWidget {
 }
 
 class _MainContentPageState extends State<MainContentPage> {
-  PageController contentPageController = PageController(initialPage: 2, keepPage: true);
+  PageController contentPageController = PageController(initialPage: 1, keepPage: true);
 
   ScreenshotController screenshotController = ScreenshotController();
 
@@ -34,11 +36,6 @@ class _MainContentPageState extends State<MainContentPage> {
   @override
   void initState() {
     super.initState();
-    loadProjects().then((value) {
-      localProjects = value;
-      selectedPlan = localProjects[1].plans[0];
-      setState(() {});
-    });
   }
 
   @override
@@ -49,54 +46,72 @@ class _MainContentPageState extends State<MainContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SideNavBar(
-          onPageChange: (index) {
-            contentPageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 750),
-              curve: Curves.easeInOutCubic,
-            );
-          },
-          onLogOut: widget.onLogOut,
-          initialSelected: contentPageController.initialPage,
-        ),
-        Expanded(
-          child: PageView(
-            controller: contentPageController,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            restorationId: "content",
+    return FutureBuilder(
+      future: loadProjects(),
+      builder: (context, AsyncSnapshot<List<Project>> snapshot) {
+        if (snapshot.hasData) {
+          if (!initialized) {
+            localProjects = snapshot.data ?? [];
+            initialized = true;
+          }
+          return Row(
             children: [
-              const AccountPage(),
-              PlansPage(
-                onPlanSelected: (plan) {
-                  selectedPlan = plan;
-                  setState(() {});
+              SideNavBar(
+                onPageChange: (index) {
+                  contentPageController.animateToPage(
+                    index,
+                    duration: const Duration(milliseconds: 750),
+                    curve: Curves.easeInOutCubic,
+                  );
                 },
+                onLogOut: widget.onLogOut,
+                initialSelected: contentPageController.initialPage,
               ),
-              EditPage(
-                layerVisibility: layerVisibility,
-                screenshotController: screenshotController,
-                selectedPlan: selectedPlan,
-                onLayerVisibilityChanged: (layer) {
-                  if (layerVisibility[layer] != null) {
-                    layerVisibility[layer] = !layerVisibility[layer]!;
-                    setState(() {});
-                  }
-                },
+              Expanded(
+                child: PageView(
+                  controller: contentPageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  restorationId: "content",
+                  children: [
+                    const AccountPage(),
+                    //TODO: Accountpage
+                    PlansPage(
+                      onPlanSelected: (plan) {
+                        selectedPlan = plan;
+                        setState(() {});
+                      },
+                    ),
+                    EditPage(
+                      layerVisibility: layerVisibility,
+                      screenshotController: screenshotController,
+                      selectedPlan: selectedPlan,
+                      onLayerVisibilityChanged: (layer) {
+                        if (layerVisibility[layer] != null) {
+                          layerVisibility[layer] = !layerVisibility[layer]!;
+                          setState(() {});
+                        }
+                      },
+                    ),
+                    ExportPage(
+                      selectedPlan: selectedPlan,
+                      screenshotController: screenshotController,
+                    ),
+                    const DatabasePage(),
+                    //TODO: Database Page
+                    const SettingsPage(),
+                    //TODO: Settings Page
+                  ],
+                ),
               ),
-              ExportPage(
-                selectedPlan: selectedPlan,
-                screenshotController: screenshotController,
-              ),
-              const DatabasePage(),
-              const SettingsPage(),
             ],
-          ),
-        ),
-      ],
+          );
+        } else {
+          return Center(
+            child: Image.asset("assets/images/logo.png"),
+          );
+        }
+      },
     );
   }
 }

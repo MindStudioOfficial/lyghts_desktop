@@ -61,13 +61,14 @@ class RulerPainter extends CustomPainter {
     Paint ap = Paint()..color = rulerColor.withOpacity(.5);
 
     for (int i = -(canvasSize.width / 2).round(); i <= canvasSize.width / 2; i++) {
-      if (i % 10 == 0) {
+      int j = i + (canvasSize.width / 2).round();
+      if (j % 10 == 0) {
         canvas.drawLine(
           Offset(i.toDouble(), 5),
-          Offset(i.toDouble(), size.height - (i % 100 == 0 ? 10 : 15)),
-          i % 100 == 0 ? ap : p,
+          Offset(i.toDouble(), size.height - (j % 100 == 0 ? 10 : 15)),
+          j % 100 == 0 ? ap : p,
         );
-        if (i % (canvasScale < .3 ? (canvasScale < 0.13 ? 500 : 200) : 100) == 0) {
+        if (j % (canvasScale < .3 ? (canvasScale < 0.13 ? 500 : 200) : 100) == 0) {
           ui.ParagraphBuilder pb = ui.ParagraphBuilder(ui.ParagraphStyle(
             fontSize: 12.5,
             maxLines: 1,
@@ -77,7 +78,7 @@ class RulerPainter extends CustomPainter {
               color: rulerColor,
               fontSize: 12.5,
             ))
-            ..addText((i + canvasSize.width / 2).toInt().toString());
+            ..addText(j.toString());
           ui.Paragraph textParagraph = pb.build();
           textParagraph.layout(const ui.ParagraphConstraints(width: 100));
           canvas.scale(1 / canvasScale, 1);

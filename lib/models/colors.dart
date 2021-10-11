@@ -24,7 +24,7 @@ Color databaseBarCardColor = appOverlayAccentColor;
 Color objectInspectorBackgroundColor = appOverlayColor;
 Color colorSelectorOutlineColor = Colors.white;
 // APP TITLE TEXT
-Color appWindowTitleColor = Colors.white.withOpacity(0.3);
+Color appWindowTitleColor = Colors.white.withOpacity(0.5);
 
 // ICONS
 Color defaultIconColor = Colors.grey.shade600;
@@ -63,3 +63,5 @@ Color layerViewerBackgroundColor = const Color.fromRGBO(18, 18, 18, .1);
 
 Color rulerBackgroundColor = const Color.fromRGBO(12, 12, 12, .1);
 Color rulerColor = Colors.white.withOpacity(.5);
+
+Color unsavedChangesColor = Colors.orange;

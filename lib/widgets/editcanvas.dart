@@ -318,6 +318,7 @@ class _EditCanvasState extends State<EditCanvas> {
                           if (widget.selectedTool == EditTools.select && checkBit(event.buttons, 0)) {
                             setState(() {
                               e.position += event.localDelta;
+                              planChanges = true;
                             });
                           }
                         },

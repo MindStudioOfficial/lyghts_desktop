@@ -8,3 +8,5 @@ export 'package:lyghts_desktop/models/plans.dart';
 export 'package:lyghts_desktop/models/projects.dart';
 export 'package:lyghts_desktop/models/database.dart';
 export 'package:lyghts_desktop/models/setelementlayers.dart';
+
+bool planChanges = false;

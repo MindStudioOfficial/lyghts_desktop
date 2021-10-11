@@ -25,18 +25,19 @@ enum sortBy {
 class _PlansPageState extends State<PlansPage> {
   List<Project> sortedProjects = localProjects;
   bool sortReversed = false;
-  sortBy sortby = sortBy.created;
+  sortBy sortby = sortBy.lastUpdated;
 
   void setSort() {
+    sortedProjects = localProjects;
     switch (sortby) {
       case sortBy.name:
-        sortedProjects.sort((a, b) => a.name.compareTo(b.name));
+        sortedProjects.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         break;
       case sortBy.created:
         sortedProjects.sort((b, a) => a.createdAt.compareTo(b.createdAt));
         break;
       case sortBy.lastUpdated:
-        sortedProjects.sort((b, a) => a.createdAt.compareTo(b.createdAt));
+        sortedProjects.sort((b, a) => a.lastUpdatedAt.compareTo(b.lastUpdatedAt));
         break;
       default:
         sortedProjects = localProjects;
@@ -252,10 +253,13 @@ class _PlansPageState extends State<PlansPage> {
                 itemBuilder: (context, index) {
                   Project project = sortedProjects[index];
                   return ProjectViewer(
-                    //key: k,
+                    onUpdate: () {
+                      setSort();
+                    },
                     project: project,
                     onPlanSelected: (plan) {
                       widget.onPlanSelected(plan);
+
                       setState(() {});
                     },
                     constraints: constraints,

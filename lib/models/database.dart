@@ -125,9 +125,9 @@ List<LightFixture> lightFixtureDatabase = [
 ];
 
 List<Project> localProjects = [
-  Project(
+/*  Project(
     filename: "project_1",
-    name: "Project 1",
+    name: "Project 1 fake",
     createdAt: DateTime.fromMillisecondsSinceEpoch(1628787092000),
     lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(1628787164000),
     plans: [
@@ -248,7 +248,7 @@ List<Project> localProjects = [
         setLayers: [],
       ),
     ],
-  ),
+  ),*/
 ];
 
 List<Camera> cameraDatabase = [

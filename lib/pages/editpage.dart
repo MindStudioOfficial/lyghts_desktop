@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lyghts_desktop/utils/binary.dart';
+import 'package:lyghts_desktop/utils.dart';
 import 'package:lyghts_desktop/widgets.dart';
 import 'package:lyghts_desktop/models.dart';
 import 'package:screenshot/screenshot.dart';
@@ -13,6 +13,7 @@ class EditPage extends StatefulWidget {
   final ScreenshotController screenshotController;
   final Map<Layers, bool> layerVisibility;
   final Function(Layers layer) onLayerVisibilityChanged;
+
   const EditPage({
     Key? key,
     required this.screenshotController,
@@ -123,12 +124,14 @@ class _EditPageState extends State<EditPage> {
                               },
                               layerVisibility: widget.layerVisibility,
                               onUpdate: () {
+                                planChanges = true;
                                 setState(() {});
                               },
                               onSetElementSelected: (element) {
                                 setState(() {
                                   selectedSetElement = element;
                                 });
+                                planChanges = true;
                               },
                               onMoveBlocked: (blocked) {
                                 moveBlocked = blocked;
@@ -146,7 +149,7 @@ class _EditPageState extends State<EditPage> {
                                 );
                                 selectedSetElement = element;
                                 selectedDatabaseElement = null;
-
+                                planChanges = true;
                                 setState(() {
                                   deselectDataBaseElement = true;
                                 });
@@ -269,6 +272,7 @@ class _EditPageState extends State<EditPage> {
               ),
             ),
             Positioned(
+              //RESET TRANSFORM BUTTON
               bottom: 50,
               left: 350,
               child: ResetTransformButton(
@@ -289,6 +293,19 @@ class _EditPageState extends State<EditPage> {
                 },
               ),
             ),
+            Positioned(
+              // SAVE BUTTON
+              top: 50,
+              left: 350,
+              child: SavePlanButton(
+                onPressed: () {
+                  savePlan(widget.selectedPlan!);
+                  planChanges = false;
+                  setState(() {});
+                },
+                unsaved: planChanges,
+              ),
+            )
           ],
         );
       } else {

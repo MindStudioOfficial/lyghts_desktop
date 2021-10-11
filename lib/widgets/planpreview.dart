@@ -5,7 +5,9 @@ import 'package:lyghts_desktop/widgets.dart';
 class PlanPreview extends StatelessWidget {
   final Plan plan;
   final Function() onPlanSelected;
-  const PlanPreview({Key? key, required this.plan, required this.onPlanSelected}) : super(key: key);
+  final Function() onUpdate;
+  const PlanPreview({Key? key, required this.plan, required this.onPlanSelected, required this.onUpdate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,42 @@ class PlanPreview extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  plan.name,
-                  style: projectViewerHeaderTextStyle,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                child: Row(
+                  children: [
+                    Text(
+                      plan.name,
+                      style: projectViewerHeaderTextStyle,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return RenameDialog(
+                              initialValue: plan.name,
+                              onRenameComplete: (value) {
+                                plan.name = value;
+                                updatePlanUpdatedAt(plan);
+                                onUpdate();
+                              },
+                              title: "Rename Plan",
+                              maxLength: 64,
+                            );
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.edit_sharp,
+                        size: 20,
+                        color: selectedIconColor,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(

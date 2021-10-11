@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
+import 'dart:convert' as conv;
 
 class Plan {
   Size size;
@@ -41,13 +42,13 @@ class Plan {
       createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt']),
       lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(json['lastUpdatedAt']),
       setElements: [],
-      backgroundImage: json['backgroundImage'] != null ? Uint8List.fromList(json['backgroundImage']) : null,
+      backgroundImage: json['backgroundImage'] != null ? conv.base64.decode(json['backgroundImage']) : null,
       thumbnailUrl: json['thumbnailUrl'],
       colorHistory: List.generate(json['colorHistory'].length, (index) {
         List ch = json['colorHistory'];
         return Color(ch[index]);
       }),
-      ratio: json['ratio'],
+      ratio: json['ratio'] ?? 1,
     );
   }
 
@@ -66,7 +67,7 @@ class Plan {
           return setLayers[i].toJSON();
         },
       ),
-      'backgroundImage': backgroundImage != null ? backgroundImage!.toList() : null,
+      'backgroundImage': backgroundImage != null ? conv.base64.encode(backgroundImage!.toList()) : null,
       'thumbnailUrl': thumbnailUrl,
       'colorHistory': List.generate(colorHistory.length, (index) {
         return colorHistory[index].value;

@@ -3,10 +3,19 @@ import 'package:lyghts_desktop/models.dart';
 import 'package:lyghts_desktop/widgets.dart';
 import 'package:lyghts_desktop/utils.dart';
 
+void updatePlanUpdatedAt(Plan p) {
+  p.lastUpdatedAt = DateTime.now();
+  updateProjectUpdatedAt(localProjects.firstWhere((project) => project.plans.any((plan) => plan == p)));
+}
+
+void updateProjectUpdatedAt(Project pr) {
+  pr.lastUpdatedAt = DateTime.now();
+}
+
 class ProjectViewer extends StatefulWidget {
   final Project project;
   final BoxConstraints constraints;
-
+  final Function() onUpdate;
   final Function(Plan plan) onPlanSelected;
 
   const ProjectViewer({
@@ -14,6 +23,7 @@ class ProjectViewer extends StatefulWidget {
     required this.project,
     required this.onPlanSelected,
     required this.constraints,
+    required this.onUpdate,
   }) : super(key: key);
 
   @override
@@ -60,6 +70,30 @@ class _ProjectViewerState extends State<ProjectViewer> {
                     ),
                     const SizedBox(
                       width: 8,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return RenameDialog(
+                              initialValue: widget.project.name,
+                              onRenameComplete: (value) {
+                                widget.project.name = value;
+                                updateProjectUpdatedAt(widget.project);
+                                widget.onUpdate();
+                              },
+                              title: "Rename Project",
+                              maxLength: 64,
+                            );
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.edit_sharp,
+                        color: selectedIconColor,
+                        size: 25,
+                      ),
                     ),
                     Expanded(
                       flex: 3,
@@ -132,6 +166,9 @@ class _ProjectViewerState extends State<ProjectViewer> {
                                       actions: [
                                         TextButton(
                                           onPressed: () {
+                                            localProjects.remove(widget.project);
+                                            widget.onUpdate();
+
                                             Navigator.pop(context);
                                           },
                                           child: Padding(
@@ -211,6 +248,11 @@ class _ProjectViewerState extends State<ProjectViewer> {
     for (Plan plan in widget.project.plans) {
       w.add(
         PlanPreview(
+          onUpdate: () {
+            widget.onUpdate();
+
+            setState(() {});
+          },
           plan: plan,
           onPlanSelected: () {
             widget.onPlanSelected(plan);

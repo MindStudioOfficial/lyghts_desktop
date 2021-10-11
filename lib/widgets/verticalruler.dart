@@ -67,13 +67,14 @@ class VRulerPainter extends CustomPainter {
       ..strokeWidth = 2;
 
     for (int i = -(canvasSize.height / 2).round(); i <= canvasSize.height / 2; i++) {
-      if (i % 10 == 0) {
+      int j = i + (canvasSize.height / 2).round();
+      if (j % 10 == 0) {
         canvas.drawLine(
           Offset(5, i.toDouble()),
-          Offset(size.width - (i % 100 == 0 ? 20 : 25), i.toDouble()),
-          i % 100 == 0 ? ap : p,
+          Offset(size.width - (j % 100 == 0 ? 20 : 25), i.toDouble()),
+          j % 100 == 0 ? ap : p,
         );
-        if ((i + canvasSize.height / 2).toInt() % (canvasScale < .3 ? (canvasScale < 0.13 ? 500 : 200) : 100) == 0) {
+        if (j % (canvasScale < .3 ? (canvasScale < 0.13 ? 500 : 200) : 100) == 0) {
           ui.ParagraphBuilder pb = ui.ParagraphBuilder(ui.ParagraphStyle(
             fontSize: 12.5,
             maxLines: 5,
@@ -83,7 +84,7 @@ class VRulerPainter extends CustomPainter {
               color: rulerColor,
               fontSize: 12.5,
             ))
-            ..addText((i + canvasSize.height / 2).toInt().toString());
+            ..addText(j.toString());
           ui.Paragraph textParagraph = pb.build();
           textParagraph.layout(const ui.ParagraphConstraints(width: 14));
           canvas.scale(1, 1 / canvasScale);
