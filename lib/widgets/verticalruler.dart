@@ -28,15 +28,17 @@ class _VerticalRulerState extends State<VerticalRuler> {
       top: 0,
       child: Container(
         width: 40,
-        height: widget.constraints.maxHeight - 30,
+        height: widget.constraints.maxHeight,
         color: rulerBackgroundColor,
-        child: CustomPaint(
-          size: Size(40, widget.constraints.maxHeight - 30),
-          painter: VRulerPainter(
-            canvasPos: widget.canvasPos,
-            canvasScale: widget.canvasScale,
-            canvasSize: widget.canvasSize,
-            constraints: widget.constraints,
+        child: ClipRect(
+          child: CustomPaint(
+            size: Size(40, widget.constraints.maxHeight - 30),
+            painter: VRulerPainter(
+              canvasPos: widget.canvasPos,
+              canvasScale: widget.canvasScale,
+              canvasSize: widget.canvasSize,
+              constraints: widget.constraints,
+            ),
           ),
         ),
       ),

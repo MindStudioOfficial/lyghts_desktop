@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:lyghts_desktop/models.dart';
 import 'package:lyghts_desktop/utils.dart';
-import 'package:path_provider/path_provider.dart';
 
 Future<bool> saveProject(Project project) async {
-  Directory docDir = await getApplicationDocumentsDirectory();
-  Directory lyghtsDir = Directory.fromUri(Uri.directory(docDir.path + "/Lyghts"));
-  if (!lyghtsDir.existsSync()) lyghtsDir.createSync();
+  Directory projectsDir = globalSettings.projectsDir;
+  if (!projectsDir.existsSync()) {
+    projectsDir.createSync(recursive: true);
+  }
   File projectFile =
-      File.fromUri(Uri.file(lyghtsDir.path + "/${project.filename.toLowerCase().replaceAll(" ", "_")}.lypr"));
+      File.fromUri(Uri.file(projectsDir.path + "/${project.filename.toLowerCase().replaceAll(" ", "_")}.lypr"));
   project.lastUpdatedAt = DateTime.now();
 
   projectFile.writeAsStringSync(jsonEncode(project.toJSON()));
@@ -20,7 +20,6 @@ bool savePlan(Plan plan) {
   if (localProjects.any(
     (project) => project.plans.any(
       (p) {
-        print(p.uuid + " - " + plan.uuid);
         return p.uuid == plan.uuid;
       },
     ),

@@ -260,7 +260,6 @@ class _PlansPageState extends State<PlansPage> {
                     project: project,
                     onPlanSelected: (plan) {
                       widget.onPlanSelected(plan);
-                      print(plan.uuid);
                       setState(() {});
                     },
                     constraints: constraints,

@@ -262,6 +262,7 @@ class _EditPageState extends State<EditPage> {
                           });
                         },
                         onUpdate: () {
+                          planChanges = true;
                           setState(() {});
                         },
                         selectedPlan: widget.selectedPlan,
