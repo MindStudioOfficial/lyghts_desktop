@@ -13,6 +13,7 @@ class EditPage extends StatefulWidget {
   final ScreenshotController screenshotController;
   final Map<Layers, bool> layerVisibility;
   final Function(Layers layer) onLayerVisibilityChanged;
+  final bool rendering;
 
   const EditPage({
     Key? key,
@@ -20,6 +21,7 @@ class EditPage extends StatefulWidget {
     this.selectedPlan,
     required this.layerVisibility,
     required this.onLayerVisibilityChanged,
+    required this.rendering,
   }) : super(key: key);
 
   @override
@@ -115,6 +117,7 @@ class _EditPageState extends State<EditPage> {
                           height: widget.selectedPlan!.size.height + 2000,
                           child: Center(
                             child: EditCanvas(
+                              rendering: widget.rendering,
                               onAbortAddElement: () {
                                 selectedDatabaseElement = null;
 

@@ -24,6 +24,7 @@ class EditCanvas extends StatefulWidget {
   final Function() onAbortAddElement;
   final ScreenshotController screenshotController;
   final Map<Layers, bool> layerVisibility;
+  final bool rendering;
 
   const EditCanvas({
     Key? key,
@@ -39,6 +40,7 @@ class EditCanvas extends StatefulWidget {
     required this.onUpdate,
     required this.screenshotController,
     required this.layerVisibility,
+    required this.rendering,
   }) : super(key: key);
 
   @override
@@ -61,7 +63,7 @@ class _EditCanvasState extends State<EditCanvas> {
       controller: widget.screenshotController,
       child: Container(
         key: widgetKey,
-        decoration: canvasBackgroundDecoration,
+        decoration: widget.rendering ? const BoxDecoration(color: Colors.white) : canvasBackgroundDecoration,
         width: widget.plan.size.width,
         height: widget.plan.size.height,
         child: Stack(

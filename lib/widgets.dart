@@ -18,3 +18,4 @@ export 'package:lyghts_desktop/widgets/renamedialog.dart';
 export 'package:lyghts_desktop/widgets/horizontalruler.dart';
 export 'package:lyghts_desktop/widgets/verticalruler.dart';
 export 'package:lyghts_desktop/widgets/saveplanbutton.dart';
+export 'package:lyghts_desktop/widgets/newprojectdialog.dart';

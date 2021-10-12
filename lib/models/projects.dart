@@ -6,7 +6,7 @@ class Project {
   String filename;
   DateTime createdAt;
   DateTime lastUpdatedAt;
-  List<Plan> plans;
+  List<Plan> plans = [];
   bool localExpanded;
   String uuid;
 
@@ -16,7 +16,7 @@ class Project {
     required this.createdAt,
     required this.lastUpdatedAt,
     required this.uuid,
-    this.plans = const [],
+    required this.plans,
     this.localExpanded = false,
   });
 

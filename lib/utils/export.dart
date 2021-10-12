@@ -1,8 +1,15 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/utils.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdfw;
+
+enum ExportFormats {
+  png,
+  pdf,
+}
 
 Future<bool> exportAsPng(List<int> imageData, String planName) async {
   Directory expDir = globalSettings.exportsDir;
@@ -29,23 +36,30 @@ Future<bool> exportAsPng(List<int> imageData, String planName) async {
 }
 
 String generateFilename(String name, String extension, [String i = ""]) {
-  return '${DateTime.now().toDateTimeShortString()}_${name.toLowerCase().replaceAll("  ", " ").replaceAll(" ", "_")}_$i$extension';
+  return '${DateTime.now().toDateTimeShortString()}_${name.toLowerCase().replaceAll("  ", " ").replaceAll(" ", "_")}${i.isNotEmpty ? "_" + i : ""}$extension';
 }
 
-Future<bool> exportAsPdf(List<int> imageData, String planName) async {
+Future<bool> exportAsPdf(List<int> imageData, String planName, Size imageSize) async {
   final image = pdfw.MemoryImage(Uint8List.fromList(imageData));
 
-  final pdf = pdfw.Document();
-  pdf.addPage(pdfw.Page(
-    build: (pdfw.Context context) {
-      return pdfw.FullPage(
-        ignoreMargins: false,
-        child: pdfw.Center(
-          child: pdfw.Image(image),
-        ),
-      );
-    },
-  ));
+  final pdf = pdfw.Document(creator: "Lyghts.io");
+
+  pdf.addPage(
+    pdfw.Page(
+      orientation: imageSize.aspectRatio > 1 ? pdfw.PageOrientation.landscape : pdfw.PageOrientation.portrait,
+      margin: const pdfw.EdgeInsets.all(16),
+      build: (pdfw.Context context) {
+        return pdfw.Center(
+          child: pdfw.FittedBox(
+            fit: pdfw.BoxFit.contain,
+            child: pdfw.Image(
+              image,
+            ),
+          ),
+        );
+      },
+    ),
+  );
 
   Directory expDir = globalSettings.exportsDir;
   if (!expDir.existsSync()) {

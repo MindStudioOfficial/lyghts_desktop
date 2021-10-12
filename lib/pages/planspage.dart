@@ -223,7 +223,16 @@ class _PlansPageState extends State<PlansPage> {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      //TODO: Implement add project (generate filename)
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return NewProjectDialog(
+                                            onProjectCreated: () {
+                                              setSort();
+                                            },
+                                          );
+                                        },
+                                      );
                                       setState(() {});
                                     },
                                     child: Padding(
