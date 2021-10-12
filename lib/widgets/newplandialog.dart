@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
+import 'package:uuid/uuid.dart';
 
 class NewPlanDialog extends StatefulWidget {
   final Function(Plan plan) onNewPlan;
@@ -81,6 +82,7 @@ class _NewPlanDialogState extends State<NewPlanDialog> {
             if (newPlanNameController.text.isEmpty) return;
             if (selectedImageData == null) return;
             decodeImageFromList(selectedImageData!).then((image) {
+              Uuid uuid = const Uuid();
               widget.onNewPlan(
                 Plan(
                   name: newPlanNameController.text,
@@ -90,6 +92,7 @@ class _NewPlanDialogState extends State<NewPlanDialog> {
                   lastUpdatedAt: DateTime.now(),
                   setElements: [],
                   setLayers: [],
+                  uuid: uuid.v4(),
                 ),
               );
               Navigator.pop(context);

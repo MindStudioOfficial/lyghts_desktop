@@ -48,7 +48,7 @@ class _MainContentPageState extends State<MainContentPage> {
       future: loadApp(),
       builder: (context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
-          if (!initialized && snapshot.data!) {
+          if (!initialized) {
             initialized = true;
           }
           return Row(

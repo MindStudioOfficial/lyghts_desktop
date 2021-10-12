@@ -299,9 +299,10 @@ class _EditPageState extends State<EditPage> {
               left: 350,
               child: SavePlanButton(
                 onPressed: () {
-                  savePlan(widget.selectedPlan!);
-                  planChanges = false;
-                  setState(() {});
+                  if (savePlan(widget.selectedPlan!)) {
+                    planChanges = false;
+                    setState(() {});
+                  }
                 },
                 unsaved: planChanges,
               ),

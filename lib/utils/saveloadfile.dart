@@ -10,14 +10,27 @@ Future<bool> saveProject(Project project) async {
   if (!lyghtsDir.existsSync()) lyghtsDir.createSync();
   File projectFile =
       File.fromUri(Uri.file(lyghtsDir.path + "/${project.filename.toLowerCase().replaceAll(" ", "_")}.lypr"));
+  project.lastUpdatedAt = DateTime.now();
 
   projectFile.writeAsStringSync(jsonEncode(project.toJSON()));
   return true;
 }
 
 bool savePlan(Plan plan) {
-  if (localProjects.any((project) => project.plans.any((p) => p == plan))) {
-    saveProject(localProjects.firstWhere((project) => project.plans.any((p) => p == plan)));
+  if (localProjects.any(
+    (project) => project.plans.any(
+      (p) {
+        print(p.uuid + " - " + plan.uuid);
+        return p.uuid == plan.uuid;
+      },
+    ),
+  )) {
+    saveProject(
+      localProjects.firstWhere(
+        (project) => project.plans.any((p) => p.uuid == plan.uuid),
+      ),
+    );
+
     return true;
   }
   return false;

@@ -223,6 +223,7 @@ class _PlansPageState extends State<PlansPage> {
                                   ),
                                   TextButton(
                                     onPressed: () {
+                                      //TODO: Implement add project (generate filename)
                                       setState(() {});
                                     },
                                     child: Padding(
@@ -259,7 +260,7 @@ class _PlansPageState extends State<PlansPage> {
                     project: project,
                     onPlanSelected: (plan) {
                       widget.onPlanSelected(plan);
-
+                      print(plan.uuid);
                       setState(() {});
                     },
                     constraints: constraints,

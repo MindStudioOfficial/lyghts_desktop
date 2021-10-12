@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:uuid/uuid.dart';
 
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
@@ -16,6 +17,7 @@ class Plan {
   Uint8List? backgroundImage;
   List<Color> colorHistory;
   double ratio;
+  String uuid;
 
   Plan({
     required this.setLayers,
@@ -29,9 +31,11 @@ class Plan {
     this.localSelected = false,
     required this.setElements,
     this.ratio = 1, // cm per px
+    required this.uuid,
   });
 
   factory Plan.fromJSON(Map<String, dynamic> json) {
+    Uuid uuid = const Uuid();
     return Plan(
       setLayers: List.generate(json['setLayers'].length, (index) {
         List setLayers = json['setLayers'];
@@ -49,6 +53,7 @@ class Plan {
         return Color(ch[index]);
       }),
       ratio: json['ratio'] ?? 1,
+      uuid: json['uuid'] ?? uuid.v4(),
     );
   }
 
@@ -73,6 +78,7 @@ class Plan {
         return colorHistory[index].value;
       }),
       'ratio': ratio,
+      'uuid': uuid,
     };
   }
 }
