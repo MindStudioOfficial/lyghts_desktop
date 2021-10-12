@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:lyghts_desktop/utils.dart';
 
@@ -18,7 +16,9 @@ class ExportPage extends StatefulWidget {
 
 class _ExportPageState extends State<ExportPage> {
   Size imageSize = const Size(0, 0);
+
   List<int>? imageData;
+
   Future<Image> captureCanvas() async {
     Image i;
 
@@ -37,66 +37,62 @@ class _ExportPageState extends State<ExportPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Image>(
-      future: captureCanvas(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Column(
-            children: [
-              Expanded(child: snapshot.data!),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "${imageSize.width.toInt()} × ${imageSize.height.toInt()}",
-                      style: defaultTextStyle,
-                    ),
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextButton(
-                      onPressed: () {
-                        getDownloadsDirectory().then((imageDir) {
-                          String path = imageDir?.path ?? "";
-                          if (widget.selectedPlan != null) {
-                            File imageFile = File(
-                                '$path/${DateTime.now().toDateTimeShortString()}_${widget.selectedPlan!.name.toLowerCase().replaceAll("  ", " ").replaceAll(" ", "_")}.png');
-                            int i = 1;
-                            while (imageFile.existsSync()) {
-                              imageFile = File(
-                                  '$path/${DateTime.now().toDateTimeShortString()}_${widget.selectedPlan!.name.toLowerCase().replaceAll("  ", " ").replaceAll(" ", "_")}_$i.png');
-                              i++;
-                            }
-                            if (imageData != null) {
-                              imageFile.writeAsBytes(imageData!);
-                            }
-                          }
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Save",
-                          style: defaultTextStyle.copyWith(fontSize: 25),
-                        ),
+    if (widget.selectedPlan != null) {
+      return FutureBuilder<Image>(
+        future: captureCanvas(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                Expanded(child: snapshot.data!),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "${imageSize.width.toInt()} × ${imageSize.height.toInt()}",
+                        style: defaultTextStyle,
                       ),
-                      style: iconTextButtonStyle,
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                        onPressed: () async {
+                          if (widget.selectedPlan != null && imageData != null) {
+                            await exportAsPng(imageData!, widget.selectedPlan!.name);
+                            await exportAsPdf(imageData!, widget.selectedPlan!.name);
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Save",
+                            style: defaultTextStyle.copyWith(fontSize: 25),
+                          ),
+                        ),
+                        style: iconTextButtonStyle,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              color: selectedIconColor,
+            ),
           );
-        }
-        return Center(
-          child: Text(
-            "No Plan Selected",
-            style: waterMarcTextStyle,
-          ),
-        );
-      },
-    );
+        },
+      );
+    } else {
+      return Center(
+        child: Text(
+          "No Plan Selected",
+          style: waterMarcTextStyle,
+        ),
+      );
+    }
   }
 }

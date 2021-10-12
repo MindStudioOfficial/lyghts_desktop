@@ -6,8 +6,6 @@ import 'package:lyghts_desktop/utils.dart';
 import 'package:lyghts_desktop/widgets.dart';
 import 'package:screenshot/screenshot.dart';
 
-bool initialized = false;
-
 class MainContentPage extends StatefulWidget {
   final Function() onLogOut;
   const MainContentPage({Key? key, required this.onLogOut}) : super(key: key);
@@ -47,11 +45,10 @@ class _MainContentPageState extends State<MainContentPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadProjects(),
-      builder: (context, AsyncSnapshot<List<Project>> snapshot) {
+      future: loadApp(),
+      builder: (context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
-          if (!initialized) {
-            localProjects = snapshot.data ?? [];
+          if (!initialized && snapshot.data!) {
             initialized = true;
           }
           return Row(

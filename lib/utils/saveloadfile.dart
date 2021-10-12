@@ -24,10 +24,7 @@ bool savePlan(Plan plan) {
 }
 
 Future<bool> projectFilenameExists(String filename) async {
-  Directory docDir = await getApplicationDocumentsDirectory();
-  Directory lyghtsDir = Directory.fromUri(
-    Uri.directory(globalSettings['projectsPath'] ?? (docDir.path + "/Lyghts")),
-  );
+  Directory lyghtsDir = globalSettings.lyghtsDir;
   File projectFile = File.fromUri(Uri.file(lyghtsDir.path + "/${filename.toLowerCase().replaceAll(" ", "_")}.lypr"));
   if (projectFile.existsSync()) {
     return true;
@@ -38,12 +35,9 @@ Future<bool> projectFilenameExists(String filename) async {
 
 Future<List<Project>> loadProjects() async {
   List<Project> projects = [];
-  Directory docDir = await getApplicationDocumentsDirectory();
-  Directory lyghtsDir = Directory.fromUri(
-    Uri.directory(globalSettings['projectsPath'] ?? (docDir.path + "/Lyghts")),
-  );
-  if (!lyghtsDir.existsSync()) lyghtsDir.createSync();
-  List<FileSystemEntity> fse = lyghtsDir.listSync();
+  Directory projectsDir = globalSettings.projectsDir;
+  if (!projectsDir.existsSync()) projectsDir.createSync();
+  List<FileSystemEntity> fse = projectsDir.listSync();
   for (FileSystemEntity element in fse) {
     if (element is File && element.path.split(".").last == "lypr") {
       String fileContent = element.readAsStringSync();

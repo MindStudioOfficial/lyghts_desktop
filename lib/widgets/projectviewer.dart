@@ -68,40 +68,49 @@ class _ProjectViewerState extends State<ProjectViewer> {
                         size: 25,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return RenameDialog(
-                              initialValue: widget.project.name,
-                              onRenameComplete: (value) {
-                                widget.project.name = value;
-                                updateProjectUpdatedAt(widget.project);
-                                widget.onUpdate();
-                              },
-                              title: "Rename Project",
-                              maxLength: 64,
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.edit_sharp,
-                        color: selectedIconColor,
-                        size: 25,
-                      ),
-                    ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        widget.project.name,
-                        style: projectViewerHeaderTextStyle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              widget.project.name,
+                              style: projectViewerHeaderTextStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return RenameDialog(
+                                    initialValue: widget.project.name,
+                                    onRenameComplete: (value) {
+                                      widget.project.name = value;
+                                      updateProjectUpdatedAt(widget.project);
+                                      widget.onUpdate();
+                                    },
+                                    title: "Rename Project",
+                                    maxLength: 64,
+                                  );
+                                },
+                              );
+                            },
+                            icon: Icon(
+                              Icons.edit_sharp,
+                              color: selectedIconColor,
+                              size: 25,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                        ],
                       ),
                     ),
                     Expanded(

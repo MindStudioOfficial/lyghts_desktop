@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/utils.dart';
 import 'package:lyghts_desktop/widgets.dart';
 
 class PlanPreview extends StatelessWidget {
@@ -61,6 +62,66 @@ class PlanPreview extends StatelessWidget {
                         Icons.edit_sharp,
                         size: 20,
                         color: selectedIconColor,
+                      ),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                              backgroundColor: appBackgroundAccentColor,
+                              title: Text(
+                                "Are you sure that you want to delete that plan?",
+                                style: defaultTextStyle.copyWith(fontSize: 25),
+                              ),
+                              actionsAlignment: MainAxisAlignment.spaceEvenly,
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    if (localProjects.any((project) => project.plans.any((p) => p == plan))) {
+                                      Project lp =
+                                          localProjects.firstWhere((project) => project.plans.any((p) => p == plan));
+                                      lp.plans.remove(plan);
+                                      saveProject(lp);
+                                    }
+                                    onUpdate();
+
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Yes",
+                                      style: defaultTextStyle.copyWith(fontSize: 30),
+                                    ),
+                                  ),
+                                  style: iconTextButtonStyle,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Cancel",
+                                      style: defaultTextStyle.copyWith(fontSize: 30),
+                                    ),
+                                  ),
+                                  style: iconTextButtonStyle,
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.delete_sharp,
+                        size: 20,
+                        color: Colors.red,
                       ),
                     ),
                   ],
