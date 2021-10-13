@@ -177,6 +177,7 @@ class _ProjectViewerState extends State<ProjectViewer> {
                                           onPressed: () {
                                             localProjects.remove(widget.project);
                                             widget.onUpdate();
+                                            //TODO: actually remove the file
 
                                             Navigator.pop(context);
                                           },

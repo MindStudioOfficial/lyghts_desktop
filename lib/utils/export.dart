@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/utils.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdfw;
 
 enum ExportFormats {

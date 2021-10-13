@@ -6,22 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/utils.dart';
 import 'package:lyghts_desktop/widgets.dart';
 import 'package:lyghts_desktop/models.dart';
-import 'package:screenshot/screenshot.dart';
 
 class EditPage extends StatefulWidget {
   final Plan? selectedPlan;
-  final ScreenshotController screenshotController;
   final Map<Layers, bool> layerVisibility;
   final Function(Layers layer) onLayerVisibilityChanged;
-  final bool rendering;
 
   const EditPage({
     Key? key,
-    required this.screenshotController,
     this.selectedPlan,
     required this.layerVisibility,
     required this.onLayerVisibilityChanged,
-    required this.rendering,
   }) : super(key: key);
 
   @override
@@ -117,7 +112,7 @@ class _EditPageState extends State<EditPage> {
                           height: widget.selectedPlan!.size.height + 2000,
                           child: Center(
                             child: EditCanvas(
-                              rendering: widget.rendering,
+                              rendering: false,
                               onAbortAddElement: () {
                                 selectedDatabaseElement = null;
 
@@ -157,7 +152,6 @@ class _EditPageState extends State<EditPage> {
                                   deselectDataBaseElement = true;
                                 });
                               },
-                              screenshotController: widget.screenshotController,
                               selectedDatabaseElement: selectedDatabaseElement,
                               plan: widget.selectedPlan!,
                               moveBlocked: true,

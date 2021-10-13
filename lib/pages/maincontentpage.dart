@@ -21,8 +21,6 @@ class _MainContentPageState extends State<MainContentPage> {
 
   Plan? selectedPlan;
 
-  bool rendering = false;
-
   Map<Layers, bool> layerVisibility = {
     Layers.camera: true,
     Layers.data: true,
@@ -77,16 +75,6 @@ class _MainContentPageState extends State<MainContentPage> {
                     duration: const Duration(milliseconds: 750),
                     curve: Curves.easeInOutCubic,
                   );
-                  if (index == 3) {
-                    setState(() {
-                      rendering = true;
-                      resetSelected();
-                    });
-                  } else {
-                    setState(() {
-                      rendering = false;
-                    });
-                  }
                 },
                 onLogOut: widget.onLogOut,
                 initialSelected: contentPageController.initialPage,
@@ -107,9 +95,7 @@ class _MainContentPageState extends State<MainContentPage> {
                       },
                     ),
                     EditPage(
-                      rendering: rendering,
                       layerVisibility: layerVisibility,
-                      screenshotController: screenshotController,
                       selectedPlan: selectedPlan,
                       onLayerVisibilityChanged: (layer) {
                         if (layerVisibility[layer] != null) {
