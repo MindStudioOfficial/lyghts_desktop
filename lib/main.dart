@@ -30,7 +30,7 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: 1, keepPage: true);
+    pageController = PageController(initialPage: 0, keepPage: true);
   }
 
   @override

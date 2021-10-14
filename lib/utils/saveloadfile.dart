@@ -48,7 +48,7 @@ Future<bool> projectFilenameExists(String filename) async {
 Future<List<Project>> loadProjects() async {
   List<Project> projects = [];
   Directory projectsDir = globalSettings.projectsDir;
-  if (!projectsDir.existsSync()) projectsDir.createSync();
+  if (!projectsDir.existsSync()) projectsDir.createSync(recursive: true);
   List<FileSystemEntity> fse = projectsDir.listSync();
   for (FileSystemEntity element in fse) {
     if (element is File && element.path.split(".").last == "lypr") {
