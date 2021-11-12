@@ -642,111 +642,126 @@ class _EditCanvasState extends State<EditCanvas> {
 }
 
 Widget rotateCircle() {
-  return SizedBox(
-    width: 25,
-    height: 25,
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Icon(
-          Icons.circle_sharp,
-          color: setElementIconAccentColor,
-          size: 25,
-        ),
-        Icon(
-          Icons.change_circle_sharp,
-          color: setElementIconColor,
-          size: 25,
-        ),
-      ],
+  return DelayedCustomTooltip(
+    "Rotate",
+    child: SizedBox(
+      width: 25,
+      height: 25,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            Icons.circle_sharp,
+            color: setElementIconAccentColor,
+            size: 25,
+          ),
+          Icon(
+            Icons.change_circle_sharp,
+            color: setElementIconColor,
+            size: 25,
+          ),
+        ],
+      ),
     ),
   );
 }
 
 Widget moveCircle() {
-  return SizedBox(
-    width: 25,
-    height: 25,
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Icon(
-          Icons.circle_sharp,
-          color: setElementIconColor,
-          size: 25,
-        ),
-        Icon(
-          Icons.open_with_sharp,
-          color: setElementIconAccentColor,
-          size: 15,
-        ),
-      ],
+  return DelayedCustomTooltip(
+    "Move",
+    child: SizedBox(
+      width: 25,
+      height: 25,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            Icons.circle_sharp,
+            color: setElementIconColor,
+            size: 25,
+          ),
+          Icon(
+            Icons.open_with_sharp,
+            color: setElementIconAccentColor,
+            size: 15,
+          ),
+        ],
+      ),
     ),
   );
 }
 
 Widget openCircle() {
-  return SizedBox(
-    width: 25,
-    height: 25,
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Icon(
-          Icons.circle_sharp,
-          color: setElementIconColor,
-          size: 25,
-        ),
-        Icon(
-          Icons.unfold_more_sharp,
-          color: setElementIconAccentColor,
-          size: 12.5,
-        ),
-      ],
+  return DelayedCustomTooltip(
+    "Open",
+    child: SizedBox(
+      width: 25,
+      height: 25,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            Icons.circle_sharp,
+            color: setElementIconColor,
+            size: 25,
+          ),
+          Icon(
+            Icons.unfold_more_sharp,
+            color: setElementIconAccentColor,
+            size: 12.5,
+          ),
+        ],
+      ),
     ),
   );
 }
 
 Widget scaleCircle() {
-  return SizedBox(
-    width: 25,
-    height: 25,
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Icon(
-          Icons.circle_sharp,
-          color: setElementIconColor,
-          size: 25,
-        ),
-        Icon(
-          Icons.open_in_full_sharp,
-          color: setElementIconAccentColor,
-          size: 12.5,
-        ),
-      ],
+  return DelayedCustomTooltip(
+    "Scale",
+    child: SizedBox(
+      width: 25,
+      height: 25,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            Icons.circle_sharp,
+            color: setElementIconColor,
+            size: 25,
+          ),
+          Icon(
+            Icons.open_in_full_sharp,
+            color: setElementIconAccentColor,
+            size: 12.5,
+          ),
+        ],
+      ),
     ),
   );
 }
 
 Widget removeCircle() {
-  return SizedBox(
-    width: 25,
-    height: 25,
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Icon(
-          Icons.circle_sharp,
-          color: setElementIconAccentColor,
-          size: 25,
-        ),
-        Icon(
-          Icons.cancel,
-          color: setElementRemoveIconColor,
-          size: 25,
-        ),
-      ],
+  return DelayedCustomTooltip(
+    "Delete",
+    child: SizedBox(
+      width: 25,
+      height: 25,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            Icons.circle_sharp,
+            color: setElementIconAccentColor,
+            size: 25,
+          ),
+          Icon(
+            Icons.cancel,
+            color: setElementRemoveIconColor,
+            size: 25,
+          ),
+        ],
+      ),
     ),
   );
 }

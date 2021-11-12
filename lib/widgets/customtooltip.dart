@@ -20,3 +20,26 @@ class CustomTooltip extends StatelessWidget {
     );
   }
 }
+
+class DelayedCustomTooltip extends StatelessWidget {
+  final String text;
+  final Widget child;
+  final Duration? delay;
+  const DelayedCustomTooltip(
+    this.text, {
+    Key? key,
+    required this.child,
+    this.delay = const Duration(milliseconds: 333),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: text,
+      child: child,
+      textStyle: toolTipTextStyle,
+      decoration: toolTipDecoration,
+      waitDuration: delay,
+    );
+  }
+}

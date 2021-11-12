@@ -155,58 +155,70 @@ class _ObjectInspectorState extends State<ObjectInspector> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                CustomColorPicker(
-                  colorHistory: widget.selectedPlan != null ? widget.selectedPlan!.colorHistory : [],
-                  onColorHistoryChanged: (colorHistory) {
-                    widget.onColorHistoryChanged(colorHistory);
-                  },
-                  initialColor: e.color,
-                  size: const Size(25, 25),
-                  onColorChanged: (color) {
-                    e.color = color;
-                    widget.onUpdate();
-                  },
+                CustomTooltip(
+                  "Text Color",
+                  child: CustomColorPicker(
+                    colorHistory: widget.selectedPlan != null ? widget.selectedPlan!.colorHistory : [],
+                    onColorHistoryChanged: (colorHistory) {
+                      widget.onColorHistoryChanged(colorHistory);
+                    },
+                    initialColor: e.color,
+                    size: const Size(25, 25),
+                    onColorChanged: (color) {
+                      e.color = color;
+                      widget.onUpdate();
+                    },
+                  ),
                 ),
                 const SizedBox(
                   width: 8,
                 ),
-                IconButton(
-                  onPressed: () {
-                    e.bold = !e.bold;
-                    widget.onUpdate();
-                  },
-                  iconSize: 20,
-                  constraints: const BoxConstraints(),
-                  padding: const EdgeInsets.all(4),
-                  icon: Icon(
-                    Icons.format_bold_sharp,
-                    color: e.bold ? selectedIconColor : defaultIconColor,
+                CustomTooltip(
+                  "Bold",
+                  child: IconButton(
+                    onPressed: () {
+                      e.bold = !e.bold;
+                      widget.onUpdate();
+                    },
+                    iconSize: 20,
+                    constraints: const BoxConstraints(),
+                    padding: const EdgeInsets.all(4),
+                    icon: Icon(
+                      Icons.format_bold_sharp,
+                      color: e.bold ? selectedIconColor : defaultIconColor,
+                    ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    e.italic = !e.italic;
-                    widget.onUpdate();
-                  },
-                  constraints: const BoxConstraints(),
-                  padding: const EdgeInsets.all(4),
-                  iconSize: 20,
-                  icon: Icon(
-                    Icons.format_italic_sharp,
-                    color: e.italic ? selectedIconColor : defaultIconColor,
+                CustomTooltip(
+                  "Italic",
+                  child: IconButton(
+                    onPressed: () {
+                      e.italic = !e.italic;
+                      widget.onUpdate();
+                    },
+                    constraints: const BoxConstraints(),
+                    padding: const EdgeInsets.all(4),
+                    iconSize: 20,
+                    icon: Icon(
+                      Icons.format_italic_sharp,
+                      color: e.italic ? selectedIconColor : defaultIconColor,
+                    ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    e.underlined = !e.underlined;
-                    widget.onUpdate();
-                  },
-                  constraints: const BoxConstraints(),
-                  padding: const EdgeInsets.all(4),
-                  iconSize: 20,
-                  icon: Icon(
-                    Icons.format_underline_sharp,
-                    color: e.underlined ? selectedIconColor : defaultIconColor,
+                CustomTooltip(
+                  "Underlined",
+                  child: IconButton(
+                    onPressed: () {
+                      e.underlined = !e.underlined;
+                      widget.onUpdate();
+                    },
+                    constraints: const BoxConstraints(),
+                    padding: const EdgeInsets.all(4),
+                    iconSize: 20,
+                    icon: Icon(
+                      Icons.format_underline_sharp,
+                      color: e.underlined ? selectedIconColor : defaultIconColor,
+                    ),
                   ),
                 ),
                 const SizedBox(

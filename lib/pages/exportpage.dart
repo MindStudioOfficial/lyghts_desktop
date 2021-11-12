@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lyghts_desktop/models.dart';
-import 'package:lyghts_desktop/widgets/editcanvas.dart';
+import 'package:lyghts_desktop/widgets.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:lyghts_desktop/utils.dart';
 
@@ -210,18 +210,21 @@ class _ExportPageState extends State<ExportPage> {
                           alignment: Alignment.topLeft,
                           child: Container(
                             color: appBackgroundColor,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_sharp,
-                                color: selectedIconColor,
+                            child: CustomTooltip(
+                              "Render Settings",
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_sharp,
+                                  color: selectedIconColor,
+                                ),
+                                iconSize: 25,
+                                onPressed: () {
+                                  setState(() {
+                                    render = false;
+                                    imageData = null;
+                                  });
+                                },
                               ),
-                              iconSize: 25,
-                              onPressed: () {
-                                setState(() {
-                                  render = false;
-                                  imageData = null;
-                                });
-                              },
                             ),
                           ),
                         ),

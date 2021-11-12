@@ -33,6 +33,8 @@ abstract class SetElement {
         return SetShape.fromJSON(json);
       case 'setDecoration':
         return SetDecoration.fromJSON(json);
+      case 'setLabel':
+        return SetLabel.fromJSON(json);
       default:
         return SetShape(
           size: const Size(100, 100),
