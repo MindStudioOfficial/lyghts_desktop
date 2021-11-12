@@ -40,88 +40,94 @@ class PlanPreview extends StatelessWidget {
                     const SizedBox(
                       width: 8,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return RenameDialog(
-                              initialValue: plan.name,
-                              onRenameComplete: (value) {
-                                plan.name = value;
-                                updatePlanUpdatedAt(plan);
-                                onUpdate();
-                              },
-                              title: "Rename Plan",
-                              maxLength: 64,
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.edit_sharp,
-                        size: 20,
-                        color: selectedIconColor,
+                    CustomTooltip(
+                      "Rename Plan",
+                      child: IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return RenameDialog(
+                                initialValue: plan.name,
+                                onRenameComplete: (value) {
+                                  plan.name = value;
+                                  updatePlanUpdatedAt(plan);
+                                  onUpdate();
+                                },
+                                title: "Rename Plan",
+                                maxLength: 64,
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.edit_sharp,
+                          size: 20,
+                          color: selectedIconColor,
+                        ),
                       ),
                     ),
                     const Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                              backgroundColor: appBackgroundAccentColor,
-                              title: Text(
-                                "Are you sure that you want to delete that plan?",
-                                style: defaultTextStyle.copyWith(fontSize: 25),
-                              ),
-                              actionsAlignment: MainAxisAlignment.spaceEvenly,
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    if (localProjects.any((project) => project.plans.any((p) => p == plan))) {
-                                      Project lp =
-                                          localProjects.firstWhere((project) => project.plans.any((p) => p == plan));
-                                      lp.plans.remove(plan);
-                                      saveProject(lp);
-                                    }
-                                    onUpdate();
+                    CustomTooltip(
+                      "Delete Plan",
+                      child: IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                                backgroundColor: appBackgroundAccentColor,
+                                title: Text(
+                                  "Are you sure that you want to delete that plan?",
+                                  style: defaultTextStyle.copyWith(fontSize: 25),
+                                ),
+                                actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      if (localProjects.any((project) => project.plans.any((p) => p == plan))) {
+                                        Project lp =
+                                            localProjects.firstWhere((project) => project.plans.any((p) => p == plan));
+                                        lp.plans.remove(plan);
+                                        saveProject(lp);
+                                      }
+                                      onUpdate();
 
-                                    Navigator.pop(context);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Yes",
-                                      style: defaultTextStyle.copyWith(fontSize: 30),
+                                      Navigator.pop(context);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Yes",
+                                        style: defaultTextStyle.copyWith(fontSize: 30),
+                                      ),
                                     ),
+                                    style: iconTextButtonStyle,
                                   ),
-                                  style: iconTextButtonStyle,
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Cancel",
-                                      style: defaultTextStyle.copyWith(fontSize: 30),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Cancel",
+                                        style: defaultTextStyle.copyWith(fontSize: 30),
+                                      ),
                                     ),
+                                    style: iconTextButtonStyle,
                                   ),
-                                  style: iconTextButtonStyle,
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.delete_sharp,
-                        size: 20,
-                        color: Colors.red,
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.delete_sharp,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ],

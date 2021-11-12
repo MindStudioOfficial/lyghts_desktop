@@ -87,129 +87,138 @@ class _PlansPageState extends State<PlansPage> {
                             ),
                             Expanded(
                               flex: 3,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (sortby != sortBy.name) {
-                                    sortby = sortBy.name;
-                                    sortReversed = false;
-                                  } else {
-                                    sortReversed = !sortReversed;
-                                  }
-                                  setSort();
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: Text(
-                                          "Project Name",
-                                          style: projectViewerHeaderTextStyle,
+                              child: CustomTooltip(
+                                "Sort by Name",
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (sortby != sortBy.name) {
+                                      sortby = sortBy.name;
+                                      sortReversed = false;
+                                    } else {
+                                      sortReversed = !sortReversed;
+                                    }
+                                    setSort();
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                                          child: Text(
+                                            "Project Name",
+                                            style: projectViewerHeaderTextStyle,
+                                          ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      if (sortby == sortBy.name)
-                                        Icon(
-                                          sortReversed ? Icons.north_sharp : Icons.south_sharp,
-                                          color: selectedIconColor,
-                                          size: 15,
+                                        const Spacer(),
+                                        if (sortby == sortBy.name)
+                                          Icon(
+                                            sortReversed ? Icons.north_sharp : Icons.south_sharp,
+                                            color: selectedIconColor,
+                                            size: 15,
+                                          ),
+                                        const SizedBox(
+                                          width: 8,
                                         ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      const VerticalDivider(
-                                        color: Colors.white,
-                                        thickness: 1,
-                                        width: 4,
-                                      ),
-                                    ],
+                                        const VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 1,
+                                          width: 4,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (sortby != sortBy.created) {
-                                    sortby = sortBy.created;
-                                    sortReversed = false;
-                                  } else {
-                                    sortReversed = !sortReversed;
-                                  }
-                                  setSort();
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: Text(
-                                          "Created",
-                                          style: projectViewerHeaderPropertyTextStyle,
+                              child: CustomTooltip(
+                                "Sort by created",
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (sortby != sortBy.created) {
+                                      sortby = sortBy.created;
+                                      sortReversed = false;
+                                    } else {
+                                      sortReversed = !sortReversed;
+                                    }
+                                    setSort();
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                                          child: Text(
+                                            "Created",
+                                            style: projectViewerHeaderPropertyTextStyle,
+                                          ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      if (sortby == sortBy.created)
-                                        Icon(
-                                          sortReversed ? Icons.north_sharp : Icons.south_sharp,
-                                          color: selectedIconColor,
-                                          size: 15,
+                                        const Spacer(),
+                                        if (sortby == sortBy.created)
+                                          Icon(
+                                            sortReversed ? Icons.north_sharp : Icons.south_sharp,
+                                            color: selectedIconColor,
+                                            size: 15,
+                                          ),
+                                        const SizedBox(
+                                          width: 8,
                                         ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      const VerticalDivider(
-                                        color: Colors.white,
-                                        thickness: 1,
-                                        width: 4,
-                                      ),
-                                    ],
+                                        const VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 1,
+                                          width: 4,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (sortby != sortBy.lastUpdated) {
-                                    sortby = sortBy.lastUpdated;
-                                    sortReversed = false;
-                                  } else {
-                                    sortReversed = !sortReversed;
-                                  }
-                                  setSort();
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: Text(
-                                          "Updated",
-                                          style: projectViewerHeaderPropertyTextStyle,
+                              child: CustomTooltip(
+                                "Sort by updated",
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (sortby != sortBy.lastUpdated) {
+                                      sortby = sortBy.lastUpdated;
+                                      sortReversed = false;
+                                    } else {
+                                      sortReversed = !sortReversed;
+                                    }
+                                    setSort();
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                                          child: Text(
+                                            "Updated",
+                                            style: projectViewerHeaderPropertyTextStyle,
+                                          ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      if (sortby == sortBy.lastUpdated)
-                                        Icon(
-                                          sortReversed ? Icons.north_sharp : Icons.south_sharp,
-                                          color: selectedIconColor,
-                                          size: 15,
+                                        const Spacer(),
+                                        if (sortby == sortBy.lastUpdated)
+                                          Icon(
+                                            sortReversed ? Icons.north_sharp : Icons.south_sharp,
+                                            color: selectedIconColor,
+                                            size: 15,
+                                          ),
+                                        const SizedBox(
+                                          width: 8,
                                         ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      const VerticalDivider(
-                                        color: Colors.white,
-                                        thickness: 1,
-                                        width: 4,
-                                      ),
-                                    ],
+                                        const VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 1,
+                                          width: 4,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -221,29 +230,32 @@ class _PlansPageState extends State<PlansPage> {
                                   const SizedBox(
                                     width: 8,
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return NewProjectDialog(
-                                            onProjectCreated: () {
-                                              setSort();
-                                            },
-                                          );
-                                        },
-                                      );
-                                      setState(() {});
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4),
-                                      child: Icon(
-                                        Icons.add_sharp,
-                                        size: 25,
-                                        color: selectedIconColor,
+                                  CustomTooltip(
+                                    "New Project",
+                                    child: TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return NewProjectDialog(
+                                              onProjectCreated: () {
+                                                setSort();
+                                              },
+                                            );
+                                          },
+                                        );
+                                        setState(() {});
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 4),
+                                        child: Icon(
+                                          Icons.add_sharp,
+                                          size: 25,
+                                          color: selectedIconColor,
+                                        ),
                                       ),
+                                      style: iconTextButtonStyle,
                                     ),
-                                    style: iconTextButtonStyle,
                                   ),
                                   const Spacer(),
                                 ],

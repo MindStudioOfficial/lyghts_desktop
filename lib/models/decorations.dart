@@ -60,3 +60,8 @@ BoxDecoration unselectedElementDecoration = BoxDecoration(
 BoxDecoration colorSelectorDecoration = BoxDecoration(
   border: Border.all(color: colorSelectorOutlineColor, width: 1),
 );
+
+BoxDecoration toolTipDecoration = BoxDecoration(
+  borderRadius: BorderRadius.circular(0),
+  color: toolTipBackgroundColor,
+);

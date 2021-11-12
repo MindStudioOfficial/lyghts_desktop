@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/utils.dart';
@@ -273,36 +270,42 @@ class _EditPageState extends State<EditPage> {
               //RESET TRANSFORM BUTTON
               bottom: 50,
               left: 350,
-              child: ResetTransformButton(
-                onPressed: () {
-                  if (widget.selectedPlan!.size.height / widget.selectedPlan!.size.width <=
-                      constraints.maxHeight / constraints.maxWidth) {
-                    editCanvasScale = ((constraints.maxWidth - 300) / widget.selectedPlan!.size.width) * .95;
-                  } else {
-                    editCanvasScale = (constraints.maxHeight / widget.selectedPlan!.size.height) * .95;
-                  }
+              child: CustomTooltip(
+                "Reset Plan Transform",
+                child: ResetTransformButton(
+                  onPressed: () {
+                    if (widget.selectedPlan!.size.height / widget.selectedPlan!.size.width <=
+                        constraints.maxHeight / constraints.maxWidth) {
+                      editCanvasScale = ((constraints.maxWidth - 300) / widget.selectedPlan!.size.width) * .95;
+                    } else {
+                      editCanvasScale = (constraints.maxHeight / widget.selectedPlan!.size.height) * .95;
+                    }
 
-                  canvasPos = Offset(
-                    ((constraints.maxWidth - widget.selectedPlan!.size.width) / 2) + 150 - 1000,
-                    ((constraints.maxHeight - widget.selectedPlan!.size.height) / 2) - 1000,
-                  );
+                    canvasPos = Offset(
+                      ((constraints.maxWidth - widget.selectedPlan!.size.width) / 2) + 150 - 1000,
+                      ((constraints.maxHeight - widget.selectedPlan!.size.height) / 2) - 1000,
+                    );
 
-                  setState(() {});
-                },
+                    setState(() {});
+                  },
+                ),
               ),
             ),
             Positioned(
               // SAVE BUTTON
               top: 50,
               left: 350,
-              child: SavePlanButton(
-                onPressed: () {
-                  if (savePlan(widget.selectedPlan!)) {
-                    planChanges = false;
-                    setState(() {});
-                  }
-                },
-                unsaved: planChanges,
+              child: CustomTooltip(
+                "Save Changes",
+                child: SavePlanButton(
+                  onPressed: () {
+                    if (savePlan(widget.selectedPlan!)) {
+                      planChanges = false;
+                      setState(() {});
+                    }
+                  },
+                  unsaved: planChanges,
+                ),
               ),
             )
           ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/widgets.dart';
+import 'package:lyghts_desktop/utils.dart';
 
 class LayerBar extends StatefulWidget {
   final Function(Layers layer) onLayerVisibilityChanged;
@@ -54,16 +56,19 @@ class _LayerBarState extends State<LayerBar> {
     List<Widget> w = [];
     layerIcons.forEach((layer, icon) {
       w.add(
-        IconButton(
-          onPressed: () {
-            widget.onLayerVisibilityChanged(layer);
-          },
-          icon: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-            child: Icon(
-              icon,
-              size: 18,
-              color: widget.layerVisibility[layer]! ? selectedIconColor : defaultIconColor,
+        CustomTooltip(
+          layer.name.capitalizeFirst(),
+          child: IconButton(
+            onPressed: () {
+              widget.onLayerVisibilityChanged(layer);
+            },
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+              child: Icon(
+                icon,
+                size: 18,
+                color: widget.layerVisibility[layer]! ? selectedIconColor : defaultIconColor,
+              ),
             ),
           ),
         ),

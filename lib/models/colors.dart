@@ -44,8 +44,8 @@ Color projectsHeaderColor = const Color.fromRGBO(6, 6, 6, 1);
 Color projectViewerHeaderColor = const Color.fromRGBO(12, 12, 12, 1);
 Color projectViewerHeaderPropertyTextColor = Colors.grey.shade400;
 Color projectViewerBodyColor = const Color.fromRGBO(32, 32, 32, .5);
-Color planPreviewBackgroundColor = const Color.fromRGBO(14, 14, 14, .7);
-Color planPreviewSelectedBackgroundColor = const Color.fromRGBO(32, 32, 32, 1);
+Color planPreviewBackgroundColor = const Color.fromRGBO(12, 12, 12, .7);
+Color planPreviewSelectedBackgroundColor = const Color.fromRGBO(48, 48, 48, 1);
 
 Color setElementIconColor = Colors.grey.shade800;
 Color setElementIconAccentColor = Colors.grey.shade300;
@@ -65,3 +65,5 @@ Color rulerBackgroundColor = const Color.fromRGBO(12, 12, 12, .1);
 Color rulerColor = Colors.white.withOpacity(.5);
 
 Color unsavedChangesColor = Colors.orange;
+
+Color toolTipBackgroundColor = const Color.fromRGBO(5, 5, 5, .7);

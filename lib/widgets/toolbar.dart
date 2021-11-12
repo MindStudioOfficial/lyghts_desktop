@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/widgets.dart';
 
 class ToolBar extends StatefulWidget {
   final Function(EditTools tool) onToolChanged;
@@ -61,25 +62,43 @@ class _ToolBarState extends State<ToolBar> {
     List<Widget> w = [];
     toolIcons.forEach((tool, icon) {
       int i = toolIcons.keys.toList().indexOf(tool);
+      String m = getToolText(tool);
+
       w.add(
-        TextButton(
-          onPressed: () {
-            widget.onToolChanged(tool);
-            selectedTool = i;
-            setState(() {});
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Icon(
-              icon,
-              size: 25,
-              color: selectedTool == i ? selectedIconColor : defaultIconColor,
+        CustomTooltip(
+          m,
+          child: TextButton(
+            onPressed: () {
+              widget.onToolChanged(tool);
+              selectedTool = i;
+              setState(() {});
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Icon(
+                icon,
+                size: 25,
+                color: selectedTool == i ? selectedIconColor : defaultIconColor,
+              ),
             ),
+            style: toolBarButtonStyle(selectedTool == i),
           ),
-          style: toolBarButtonStyle(selectedTool == i),
         ),
       );
     });
     return w;
+  }
+
+  String getToolText(EditTools tool) {
+    switch (tool) {
+      case EditTools.select:
+        return "Select";
+      case EditTools.move:
+        return "Move";
+      case EditTools.label:
+        return "Text";
+      default:
+        return "Tool";
+    }
   }
 }

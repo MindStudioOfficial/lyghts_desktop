@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
-import 'package:lyghts_desktop/models/database.dart';
+import 'package:lyghts_desktop/widgets.dart';
 import 'package:string_similarity/string_similarity.dart';
+import 'package:lyghts_desktop/utils.dart';
 
 // ignore: must_be_immutable
 class DatabaseBar extends StatefulWidget {
@@ -216,21 +217,24 @@ class _DatabaseBarState extends State<DatabaseBar> {
     List<Widget> w = [];
     layerIcons.forEach((layer, icon) {
       w.add(
-        TextButton(
-          onPressed: () {
-            widget.onCurrentLayerChanged(layer);
-            updateSortedList(layer);
-            setState(() {});
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Icon(
-              icon,
-              size: 25,
-              color: widget.currentLayer == layer ? selectedIconColor : defaultIconColor,
+        CustomTooltip(
+          layer.name.capitalizeFirst(),
+          child: TextButton(
+            onPressed: () {
+              widget.onCurrentLayerChanged(layer);
+              updateSortedList(layer);
+              setState(() {});
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Icon(
+                icon,
+                size: 25,
+                color: widget.currentLayer == layer ? selectedIconColor : defaultIconColor,
+              ),
             ),
+            style: toolBarButtonStyle(widget.currentLayer == layer),
           ),
-          style: toolBarButtonStyle(widget.currentLayer == layer),
         ),
       );
     });

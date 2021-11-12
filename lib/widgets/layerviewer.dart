@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
 import 'package:lyghts_desktop/widgets.dart';
+import 'package:lyghts_desktop/utils.dart';
 
 class LayerViewer extends StatefulWidget {
   final Plan? selectedPlan;
@@ -444,17 +445,20 @@ class _LayerViewerState extends State<LayerViewer> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       if (!dragged)
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              l.visible = !l.visible;
-                            });
-                            widget.onUpdate();
-                          },
-                          icon: Icon(
-                            l.visible ? Icons.visibility_sharp : Icons.visibility_off_sharp,
-                            color: l.visible ? Colors.white : Colors.grey.shade600,
-                            size: 18,
+                        CustomTooltip(
+                          "Toggle Visiblity",
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                l.visible = !l.visible;
+                              });
+                              widget.onUpdate();
+                            },
+                            icon: Icon(
+                              l.visible ? Icons.visibility_sharp : Icons.visibility_off_sharp,
+                              color: l.visible ? Colors.white : Colors.grey.shade600,
+                              size: 18,
+                            ),
                           ),
                         ),
                       if (dragged)
@@ -529,108 +533,121 @@ class _LayerViewerState extends State<LayerViewer> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            onPressed: () {
-              SetLayer? sLayer = selectedLayer;
-              resetSelected();
-              sLayer != null && sLayer is SetGroupLayer
-                  ? {addNewGroup(sLayer.contents)}
-                  : {addNewGroup(widget.selectedPlan!.setLayers)};
-              setState(() {});
-            },
-            icon: Icon(
-              Icons.library_add_sharp,
-              color: selectedIconColor,
-              size: 18,
+          CustomTooltip(
+            "New Group",
+            child: IconButton(
+              onPressed: () {
+                SetLayer? sLayer = selectedLayer;
+                resetSelected();
+                sLayer != null && sLayer is SetGroupLayer
+                    ? {addNewGroup(sLayer.contents)}
+                    : {addNewGroup(widget.selectedPlan!.setLayers)};
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.library_add_sharp,
+                color: selectedIconColor,
+                size: 18,
+              ),
             ),
           ),
-          IconButton(
-            onPressed: (selectedLayer != null && selectedLayer is SetElementLayer)
-                ? () {
-                    SetLayer l = selectedLayer!;
-                    if (l is SetElementLayer) {
-                      SetElement e = l.element;
-                      setState(() {
-                        resetSelected();
-                        widget.selectedPlan!.setLayers.add(
-                          l.copyWith(
-                            element: e.copyWith(
-                              position: e.position + const Offset(100, 100),
+          CustomTooltip(
+            "Copy Layer",
+            child: IconButton(
+              onPressed: (selectedLayer != null && selectedLayer is SetElementLayer)
+                  ? () {
+                      SetLayer l = selectedLayer!;
+                      if (l is SetElementLayer) {
+                        SetElement e = l.element;
+                        setState(() {
+                          resetSelected();
+                          widget.selectedPlan!.setLayers.add(
+                            l.copyWith(
+                              element: e.copyWith(
+                                position: e.position + const Offset(100, 100),
+                                selected: true,
+                              ),
+                              name: (l.name.isEmpty ? l.element.getDisplayString() : l.name) + " Copy",
                               selected: true,
                             ),
-                            name: (l.name.isEmpty ? l.element.getDisplayString() : l.name) + " Copy",
-                            selected: true,
-                          ),
-                        );
-                        widget.onSetElementSelected(e);
-                        selectedLayer = l;
-                      });
-                    }
-                  }
-                : null,
-            icon: Icon(
-              Icons.content_copy_sharp,
-              color: (selectedLayer != null && selectedLayer is SetElementLayer) ? selectedIconColor : defaultIconColor,
-            ),
-          ),
-          IconButton(
-            onPressed: selectedLayer != null
-                ? () {
-                    String initialString = "";
-                    if (selectedLayer!.name.isEmpty) {
-                      initialString = selectedLayer is SetGroupLayer ? "Unnamed Group" : "Unnamed Element";
-                    } else {
-                      initialString = selectedLayer!.name;
-                    }
-                    SetLayer l = selectedLayer!;
-                    if (l is SetElementLayer) {
-                      SetElement e = l.element;
-                      if (e is SetLabel) {
-                        initialString = e.text;
+                          );
+                          widget.onSetElementSelected(e);
+                          selectedLayer = l;
+                        });
                       }
                     }
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return RenameDialog(
-                          maxLength: 40,
-                          title: "Rename Layer",
-                          initialValue: initialString,
-                          onRenameComplete: (value) {
-                            setState(() {
-                              if (l is SetElementLayer) {
-                                SetElement e = l.element;
-                                if (e is SetLabel) {
-                                  e.text = value;
+                  : null,
+              icon: Icon(
+                Icons.content_copy_sharp,
+                color:
+                    (selectedLayer != null && selectedLayer is SetElementLayer) ? selectedIconColor : defaultIconColor,
+              ),
+            ),
+          ),
+          CustomTooltip(
+            "Rename Layer",
+            child: IconButton(
+              onPressed: selectedLayer != null
+                  ? () {
+                      String initialString = "";
+                      if (selectedLayer!.name.isEmpty) {
+                        initialString = selectedLayer is SetGroupLayer ? "Unnamed Group" : "Unnamed Element";
+                      } else {
+                        initialString = selectedLayer!.name;
+                      }
+                      SetLayer l = selectedLayer!;
+                      if (l is SetElementLayer) {
+                        SetElement e = l.element;
+                        if (e is SetLabel) {
+                          initialString = e.text;
+                        }
+                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return RenameDialog(
+                            maxLength: 40,
+                            title: "Rename Layer",
+                            initialValue: initialString,
+                            onRenameComplete: (value) {
+                              setState(() {
+                                if (l is SetElementLayer) {
+                                  SetElement e = l.element;
+                                  if (e is SetLabel) {
+                                    e.text = value;
+                                  } else {
+                                    selectedLayer!.name = value;
+                                  }
                                 } else {
                                   selectedLayer!.name = value;
                                 }
-                              } else {
-                                selectedLayer!.name = value;
-                              }
-                            });
-                            widget.onUpdate();
-                          },
-                        );
-                      },
-                    );
-                  }
-                : null,
-            icon: Icon(Icons.edit_sharp, color: selectedLayer != null ? selectedIconColor : defaultIconColor),
+                              });
+                              widget.onUpdate();
+                            },
+                          );
+                        },
+                      );
+                    }
+                  : null,
+              icon: Icon(Icons.edit_sharp, color: selectedLayer != null ? selectedIconColor : defaultIconColor),
+            ),
           ),
-          IconButton(
-            onPressed: selectedLayer != null
-                ? () {
-                    setState(() {
-                      removeFromLayers(widget.selectedPlan!.setLayers, selectedLayer!);
-                      selectedLayer = null;
-                    });
-                    widget.onUpdate();
-                  }
-                : null,
-            icon: Icon(
-              Icons.delete_sharp,
-              color: selectedLayer != null ? Colors.red : defaultIconColor,
+          CustomTooltip(
+            "Delete Layer",
+            child: IconButton(
+              onPressed: selectedLayer != null
+                  ? () {
+                      setState(() {
+                        removeFromLayers(widget.selectedPlan!.setLayers, selectedLayer!);
+                        selectedLayer = null;
+                      });
+                      widget.onUpdate();
+                    }
+                  : null,
+              icon: Icon(
+                Icons.delete_sharp,
+                color: selectedLayer != null ? Colors.red : defaultIconColor,
+              ),
             ),
           ),
         ],

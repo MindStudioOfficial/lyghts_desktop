@@ -28,7 +28,7 @@ class _NewPlanDialogState extends State<NewPlanDialog> {
       backgroundColor: appBackgroundAccentColor,
       title: Center(
         child: Text(
-          "Create new plan",
+          "Create New Plan",
           style: defaultTextStyle.copyWith(fontSize: 25),
         ),
       ),
@@ -40,7 +40,7 @@ class _NewPlanDialogState extends State<NewPlanDialog> {
             child: TextField(
               controller: newPlanNameController,
               style: textFieldStyle,
-              decoration: defaultTextFieldDecoration.copyWith(hintText: "Project Name"),
+              decoration: defaultTextFieldDecoration.copyWith(hintText: "Plan Name"),
             ),
           ),
           TextButton(

@@ -83,28 +83,31 @@ class _ProjectViewerState extends State<ProjectViewer> {
                           const SizedBox(
                             width: 8,
                           ),
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return RenameDialog(
-                                    initialValue: widget.project.name,
-                                    onRenameComplete: (value) {
-                                      widget.project.name = value;
-                                      updateProjectUpdatedAt(widget.project);
-                                      widget.onUpdate();
-                                    },
-                                    title: "Rename Project",
-                                    maxLength: 64,
-                                  );
-                                },
-                              );
-                            },
-                            icon: Icon(
-                              Icons.edit_sharp,
-                              color: selectedIconColor,
-                              size: 25,
+                          CustomTooltip(
+                            "Rename Project",
+                            child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return RenameDialog(
+                                      initialValue: widget.project.name,
+                                      onRenameComplete: (value) {
+                                        widget.project.name = value;
+                                        updateProjectUpdatedAt(widget.project);
+                                        widget.onUpdate();
+                                      },
+                                      title: "Rename Project",
+                                      maxLength: 64,
+                                    );
+                                  },
+                                );
+                              },
+                              icon: Icon(
+                                Icons.edit_sharp,
+                                color: selectedIconColor,
+                                size: 25,
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -134,89 +137,95 @@ class _ProjectViewerState extends State<ProjectViewer> {
                           const SizedBox(
                             width: 8,
                           ),
-                          TextButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return NewPlanDialog(
-                                    onNewPlan: (plan) {
-                                      widget.project.plans.add(plan);
-                                      setState(() {});
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-                              child: Icon(
-                                Icons.add_sharp,
-                                size: 20,
-                                color: selectedIconColor,
-                              ),
-                            ),
-                            style: iconTextButtonStyle,
-                          ),
-                          const Spacer(),
-                          TextButton(
-                            onPressed: () {
-                              showDialog(
+                          CustomTooltip(
+                            "New Plan",
+                            child: TextButton(
+                              onPressed: () {
+                                showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return AlertDialog(
-                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                                      backgroundColor: appBackgroundAccentColor,
-                                      title: Text(
-                                        "Are you sure that you want to delete that project?",
-                                        style: defaultTextStyle.copyWith(fontSize: 25),
-                                      ),
-                                      actionsAlignment: MainAxisAlignment.spaceEvenly,
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            localProjects.remove(widget.project);
-                                            widget.onUpdate();
-                                            //TODO: actually remove the file
-
-                                            Navigator.pop(context);
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Yes",
-                                              style: defaultTextStyle.copyWith(fontSize: 30),
-                                            ),
-                                          ),
-                                          style: iconTextButtonStyle,
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Cancel",
-                                              style: defaultTextStyle.copyWith(fontSize: 30),
-                                            ),
-                                          ),
-                                          style: iconTextButtonStyle,
-                                        ),
-                                      ],
+                                    return NewPlanDialog(
+                                      onNewPlan: (plan) {
+                                        widget.project.plans.add(plan);
+                                        setState(() {});
+                                      },
                                     );
-                                  });
-                              setState(() {});
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-                              child: Icon(
-                                Icons.delete_sharp,
-                                size: 20,
-                                color: selectedIconColor,
+                                  },
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                                child: Icon(
+                                  Icons.add_sharp,
+                                  size: 20,
+                                  color: selectedIconColor,
+                                ),
                               ),
+                              style: iconTextButtonStyle,
                             ),
-                            style: iconTextButtonStyle,
+                          ),
+                          const Spacer(),
+                          CustomTooltip(
+                            "Delete Project",
+                            child: TextButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                                        backgroundColor: appBackgroundAccentColor,
+                                        title: Text(
+                                          "Are you sure that you want to delete that project?",
+                                          style: defaultTextStyle.copyWith(fontSize: 25),
+                                        ),
+                                        actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              localProjects.remove(widget.project);
+                                              widget.onUpdate();
+                                              //TODO: actually remove the file
+
+                                              Navigator.pop(context);
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Yes",
+                                                style: defaultTextStyle.copyWith(fontSize: 30),
+                                              ),
+                                            ),
+                                            style: iconTextButtonStyle,
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Cancel",
+                                                style: defaultTextStyle.copyWith(fontSize: 30),
+                                              ),
+                                            ),
+                                            style: iconTextButtonStyle,
+                                          ),
+                                        ],
+                                      );
+                                    });
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                                child: Icon(
+                                  Icons.delete_sharp,
+                                  size: 20,
+                                  color: selectedIconColor,
+                                ),
+                              ),
+                              style: iconTextButtonStyle,
+                            ),
                           ),
                           const SizedBox(
                             width: 8,

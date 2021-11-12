@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lyghts_desktop/models.dart';
@@ -42,7 +41,7 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
   Widget build(BuildContext context) {
     return SimpleDialog(
       title: Text(
-        'Create new Project',
+        'Create New Project',
         style: projectViewerHeaderTextStyle,
       ),
       backgroundColor: appBackgroundColor,

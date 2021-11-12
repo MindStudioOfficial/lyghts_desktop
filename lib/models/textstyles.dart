@@ -39,3 +39,9 @@ TextStyle propertyStyle = defaultTextStyle.copyWith(
   color: Colors.white,
   fontWeight: FontWeight.w100,
 );
+
+TextStyle toolTipTextStyle = defaultTextStyle.copyWith(
+  fontSize: 14,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+);

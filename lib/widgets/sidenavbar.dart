@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
+import 'package:lyghts_desktop/widgets.dart';
+import 'package:lyghts_desktop/utils.dart';
 
 class SideNavBar extends StatefulWidget {
   final Function(int index) onPageChange;
@@ -64,19 +66,22 @@ class _SideNavBarState extends State<SideNavBar> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  widget.onLogOut();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: Icon(
-                    Icons.logout_sharp,
-                    size: 35,
-                    color: defaultIconColor,
+              CustomTooltip(
+                "Log Out",
+                child: TextButton(
+                  onPressed: () {
+                    widget.onLogOut();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: Icon(
+                      Icons.logout_sharp,
+                      size: 35,
+                      color: defaultIconColor,
+                    ),
                   ),
+                  style: sideNavBarButtonStyle(false),
                 ),
-                style: sideNavBarButtonStyle(false),
               ),
             ],
           ),
@@ -91,21 +96,24 @@ class _SideNavBarState extends State<SideNavBar> {
       int i = pages.keys.toList().indexOf(key);
 
       w.add(
-        TextButton(
-          onPressed: () {
-            widget.onPageChange(i);
-            selected = i;
-            setState(() {});
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Icon(
-              value,
-              size: 35,
-              color: selected == i ? selectedIconColor : defaultIconColor,
+        CustomTooltip(
+          key.capitalizeFirst(),
+          child: TextButton(
+            onPressed: () {
+              widget.onPageChange(i);
+              selected = i;
+              setState(() {});
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Icon(
+                value,
+                size: 35,
+                color: selected == i ? selectedIconColor : defaultIconColor,
+              ),
             ),
+            style: sideNavBarButtonStyle(selected == i),
           ),
-          style: sideNavBarButtonStyle(selected == i),
         ),
       );
     });
