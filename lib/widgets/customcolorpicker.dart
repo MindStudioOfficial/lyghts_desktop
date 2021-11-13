@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lyghts_desktop/models.dart';
 import 'package:lyghts_desktop/utils.dart';
 import 'package:vector_math/vector_math.dart' as vm;
-import 'package:lyghts_desktop/widgets.dart';
 
 class CustomColorPicker extends StatelessWidget {
   final Size size;
@@ -86,6 +85,8 @@ class ColorPickerBody extends StatefulWidget {
   @override
   _ColorPickerBodyState createState() => _ColorPickerBodyState();
 }
+
+//TODO: TextField for pasting and parsing HEX Color Codes
 
 class _ColorPickerBodyState extends State<ColorPickerBody> {
   HSVColor newColor = HSVColor.fromColor(Colors.black);
